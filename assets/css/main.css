@@ -924,3 +924,8 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
 .foot{margin-top:clamp(80px,10vw,140px);padding:2.5em 0;border-top:1px solid rgba(255,255,255,.1)}
 .foot-in{display:flex;justify-content:space-between;gap:1em;flex-wrap:wrap}
 @media(max-width:700px){.points li{flex-direction:column;gap:.5em}.foot-in{flex-direction:column}}
+.cards-3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.s-cta{padding:clamp(60px,8vw,100px) 0;background:var(--ink);border-top:1px solid rgba(255,255,255,.08)}
+.cta-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5em;margin:1.5em 0}
+.cta-cols p{color:#a8a8a8}
+.cta .h-lg{margin-bottom:.5em}
