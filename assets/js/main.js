@@ -14,8 +14,7 @@
       if (el) { e.preventDefault(); lenis.scrollTo(el, { duration: 1.6 }); }
     });
   });
-  const skipBtn = document.getElementById('dlg-skip');
-  if (skipBtn) skipBtn.addEventListener('click', () => lenis.scrollTo('#principles', { duration: 1.4 }));
+  /* journey skip removed with old section */
 
   /* ---------- readouts: red topbar, %, debug ---------- */
   const bar = document.querySelector('.topbar span');
@@ -58,74 +57,7 @@
     el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.9, ease: 'elastic.out(1,0.4)' }));
   });
 
-  /* ---------- hero intro ---------- */
-  gsap.set('.hud-top > *, .hero-mid > *, .giant, .flanks > *, .ver', { opacity: 0, y: 24 });
-  const intro = gsap.timeline({ delay: 0.4 });
-  intro.to('.hud-top > *', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08 }, 0)
-       .to('.hero-mid > *', { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.12 }, 0.15)
-       .to('.giant', { opacity: 1, y: 0, duration: 1.3, ease: 'power3.out' }, 0.3)
-       .to('.flanks > *, .ver', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08 }, 0.5);
-
-  /* ---------- 2 · FOCUS: pinned 5-stage radial focus-pull ---------- */
-  const stages = gsap.utils.toArray('.s-focus .stages p');
-  gsap.set(stages, { opacity: 0.07, filter: 'blur(16px)' });
-  const focusTl = gsap.timeline({
-    scrollTrigger: { trigger: '.s-focus', start: 'top top', end: '+=280%', scrub: 1, pin: true }
-  });
-  stages.forEach((p, i) => {
-    focusTl.to(p, { opacity: 1, filter: 'blur(0px)', duration: 1, ease: 'none' }, i * 1.6)
-           .to(p, { opacity: 0.07, filter: 'blur(16px)', duration: 1, ease: 'none' }, i * 1.6 + 1);
-  });
-  focusTl.to({}, { duration: 0.5 });
-
-  /* ---------- 3 · JOURNEY: pinned chapter ---------- */
-  const LINES = [
-    'MCA final year. One laptop. Zero shortcuts.',
-    'First website shipped. Then ten more — each sharper than the last.',
-    'Now I build for clients. Verified on phone and desktop, every single time.'
-  ];
-  const lineEl = document.getElementById('dlg-line');
-  const dlgBar = document.getElementById('dlg-bar');
-  const scramEl = document.getElementById('scramble');
-  const SCRAM = '█▓▒░<>/\\|#*';
-  let scramTimer = null;
-  function scrambleTo(text) {
-    if (scramTimer) clearInterval(scramTimer);
-    let frame = 0;
-    scramTimer = setInterval(() => {
-      frame++;
-      const done = Math.floor(frame / 2);
-      let out = text.slice(0, done);
-      for (let i = done; i < text.length; i++) {
-        out += text[i] === ' ' ? ' ' : SCRAM[Math.floor(Math.random() * SCRAM.length)];
-      }
-      scramEl.textContent = out;
-      if (done >= text.length) { clearInterval(scramTimer); scramTimer = null; }
-    }, 40);
-  }
-
-  const jTl = gsap.timeline({
-    scrollTrigger: {
-      trigger: '.s-journey', start: 'top top', end: '+=340%', scrub: 1, pin: true,
-      onUpdate: (self) => {
-        window.__storm = self.progress;
-        if (dlgBar) dlgBar.style.width = (self.progress * 100).toFixed(1) + '%';
-      }
-    }
-  });
-  jTl.call(() => scrambleTo('THE JOURNEY'), null, 0.05);
-  LINES.forEach((text, i) => {
-    const at = 0.6 + i * 1.5;
-    jTl.call(() => {
-      if (lineEl) {
-        gsap.fromTo(lineEl, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', overwrite: true });
-        lineEl.textContent = text;
-      }
-    }, null, at);
-    jTl.to({}, { duration: 1.4 });
-  });
-  jTl.to('.ch-outro', { opacity: 1, duration: 0.8, ease: 'none' }, '>-0.3');
-  jTl.to('#storm', { scale: 1.12, duration: 2.4, ease: 'none' }, 0);
+  /* ---------- hero intro lives in sections.js (welcome) ---------- */
 
   /* ---------- reveals ---------- */
   gsap.utils.toArray('[data-reveal]').forEach((el) => {

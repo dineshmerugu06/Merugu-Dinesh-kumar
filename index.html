@@ -20,66 +20,73 @@
 <div class="grain" aria-hidden="true"></div>
 <div class="topbar" aria-hidden="true"><span></span></div>
 
-<!-- ══════════ 1 · HERO ══════════ -->
-<section class="s-hero" id="top">
-  <canvas id="inkwash"></canvas>
+<header class="hud-top">
+  <a class="brand" href="#top">
+    <span class="brand-mark"><svg viewBox="0 0 8 8"><rect x="3" y="1" width="2" height="6" fill="#fff"/><rect x="1" y="3" width="6" height="2" fill="#fff"/></svg></span>
+    <span class="brand-word">DineshKumar<sup>®</sup></span>
+  </a>
+  <nav class="pills">
+    <a class="pill" href="#principles">About</a>
+    <a class="pill" href="#skills">Skills</a>
+    <a class="pill" href="projects.html">Skill&nbsp;Hub</a>
+    <a class="pill pill-hot" href="#contact">Start&nbsp;a&nbsp;Project</a>
+    <span class="pct"><span class="n">0</span>%</span>
+  </nav>
+</header>
+
+<!-- ══════════ 1 · WELCOME ══════════ -->
+<section class="w-welcome" id="top">
   <canvas id="dragon-canvas"></canvas>
+  <div class="w-ver">V_ 2026</div>
+  <h2 class="w-head">
+    <span class="l">Master</span>
+    <span class="l">Your</span>
+    <span class="l inc">Craft
+      <small class="built">Built with obsession,<br><a href="projects.html">not templates</a>.</small>
+    </span>
+  </h2>
+  <a class="w-card" href="projects.html" data-name="Skill Hub" aria-label="Skill Hub">
+    <span class="video-wrap"><video muted autoplay playsinline loop preload="auto" src="assets/videos/skill-hub-link.mp4"></video></span>
+  </a>
+  <h1 class="w-giant" aria-label="Dinesh Kumar"><span>Dinesh Kumar</span></h1>
+  <p class="w-sub s1">FOR WEBSITES THAT FEEL ALIVE</p>
+  <p class="w-sub s2">FAST.&nbsp;SHARP.&nbsp;VERIFIED.</p>
+</section>
 
-  <header class="hud-top">
-    <a class="brand" href="#top">
-      <span class="brand-mark"><svg viewBox="0 0 8 8"><rect x="3" y="1" width="2" height="6" fill="#fff"/><rect x="1" y="3" width="6" height="2" fill="#fff"/></svg></span>
-      <span class="brand-word">DineshKumar<sup>®</sup></span>
-    </a>
-    <nav class="pills">
-      <a class="pill" href="#principles">About</a>
-      <a class="pill" href="#skills">Skills</a>
-      <a class="pill" href="#projects">Skill&nbsp;Hub</a>
-      <a class="pill pill-hot" href="#contact">Start&nbsp;a&nbsp;Project</a>
-      <span class="pct"><span class="n">0</span>%</span>
-    </nav>
-  </header>
-
-  <div class="debug" aria-hidden="true">→&nbsp;TOP:&nbsp;<span id="dbg-top">0</span>&nbsp;PX</div>
-  <div class="ver" aria-hidden="true">V_&nbsp;2026</div>
-
-  <div class="hero-mid">
-    <p class="kicker">Master Your Craft</p>
-    <p class="built">Built with obsession, <a href="#projects">not templates</a>.</p>
-  </div>
-
-  <h1 class="giant" aria-label="Dinesh Kumar">Dinesh&nbsp;Kumar&nbsp;<span>©</span></h1>
-
-  <div class="flanks" aria-hidden="true">
-    <span>FOR&nbsp;WEBSITES&nbsp;THAT&nbsp;FEEL&nbsp;ALIVE</span>
-    <span>FAST.&nbsp;SHARP.&nbsp;VERIFIED.</span>
+<!-- ══════════ 2 · TRANSITION ══════════ -->
+<section class="w-transition">
+  <div class="t-progress"><span></span></div>
+  <div class="t-stage">
+    <p class="t-ph" data-split>Focus</p>
+    <p class="t-ph" data-split>Keep Scrolling</p>
+    <p class="t-ph" data-split>The Craft Awakened</p>
   </div>
 </section>
 
-<!-- ══════════ 2 · INTERSTITIAL (pinned) ══════════ -->
-<section class="s-focus">
-  <div class="stages" aria-hidden="true">
-    <p>Focus</p>
-    <p>Keep&nbsp;Scrolling</p>
-    <p>The&nbsp;Craft&nbsp;Awakened</p>
-    <p>Take&nbsp;it…</p>
-    <p>And&nbsp;build…</p>
-  </div>
-</section>
-
-<!-- ══════════ 3 · JOURNEY CHAPTER (pinned) ══════════ -->
-<section class="s-journey">
-  <canvas id="storm"></canvas>
-  <div class="ch-title"><span id="scramble">THE JOURNEY</span></div>
-  <div class="dialogue">
-    <div class="dlg-portrait" aria-hidden="true"><span></span></div>
-    <div class="dlg-body">
-      <p class="dlg-name">DINESH</p>
-      <p class="dlg-line" id="dlg-line"></p>
-      <div class="dlg-progress"><span id="dlg-bar"></span></div>
+<!-- ══════════ 3 · TREE ══════════ -->
+<section class="w-tree">
+  <div class="falls back"><canvas id="fallsBack"></canvas></div>
+  <div class="falls front"><canvas id="fallsFront"></canvas></div>
+  <div class="tree-stage-wrap">
+    <div class="tree-stage">
+      <p class="t-ph" data-split>Take it…</p>
+      <p class="t-ph" data-split>And build…</p>
     </div>
-    <button class="pill pill-ghost" id="dlg-skip" type="button">Skip&nbsp;↓</button>
   </div>
-  <p class="ch-outro">CRAFT&nbsp;WITH&nbsp;INTENT,&nbsp;NOT&nbsp;TEMPLATES.</p>
+  <div class="composition">
+    <div class="bamboo" id="bamboo">
+      <div class="stick s1"></div>
+      <div class="stick s2"></div>
+      <div class="stick s3"></div>
+      <div class="stick s4"></div>
+    </div>
+    <div class="string-row">
+      <svg class="string-svg" viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true">
+        <path id="stringPath" d="M0 30 Q 500 30 1000 30" fill="none"/>
+      </svg>
+      <p class="tagline">Craft with intent,<br>not templates.</p>
+    </div>
+  </div>
 </section>
 
 
@@ -89,8 +96,7 @@
 <script src="./assets/js/vendor/ScrollTrigger.min.js"></script>
 <script src="./assets/js/vendor/lenis.min.js"></script>
 <script src="./assets/js/main.js"></script>
-<script src="./assets/js/storm.js"></script>
-<script src="./assets/js/inkwash.js"></script>
+<script src="./assets/js/sections.js"></script>
 <script type="module" src="./assets/js/hero3d.js"></script>
 </body>
 </html>

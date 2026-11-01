@@ -70,7 +70,7 @@ resize();
 // scroll-linked spin: dragon turns as you leave the hero
 if (window.ScrollTrigger) {
   ScrollTrigger.create({
-    trigger: '.s-hero', start: 'top top', end: 'bottom top', scrub: true,
+    trigger: '.w-welcome', start: 'top top', end: 'bottom top', scrub: true,
     onUpdate: (self) => { heroProgress = self.progress; scrollSpin = self.progress * Math.PI * 1.2; }
   });
 }
