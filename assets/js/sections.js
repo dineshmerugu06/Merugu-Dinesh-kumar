@@ -86,16 +86,6 @@
         opacity: 0.08, filter: 'blur(12px)', y: -26, duration: 0.45, ease: 'none', stagger: 0.015
       }, b);
     });
-    // composition entrance, scrubbed over its own scroll
-    gsap.from('.bamboo .stick', {
-      yPercent: 24, opacity: 0, ease: 'none', stagger: 0.1,
-      scrollTrigger: { trigger: '.composition', start: 'top 90%', end: 'top 30%', scrub: 1 }
-    });
-    gsap.to('.composition', {
-      backgroundPositionY: '30%', ease: 'none',
-      scrollTrigger: { trigger: '.composition', start: 'top bottom', end: 'bottom top', scrub: 1 }
-    });
-
     /* waterfall canvases */
     function makeFalls(id, n, alpha) {
       const cv = document.getElementById(id);
@@ -132,28 +122,6 @@
     }
     makeFalls('fallsBack', 90, 0.5);
     makeFalls('fallsFront', 50, 0.35);
-
-    /* bamboo sway — spring on pointer + scroll */
-    const bamboo = document.getElementById('bamboo');
-    const sticks = bamboo ? Array.from(bamboo.querySelectorAll('.stick')) : [];
-    const sway = sticks.map(() => ({ a: 0, v: 0 }));
-    let targetSway = 0;
-    window.addEventListener('pointermove', (e) => {
-      targetSway = ((e.clientX / window.innerWidth) - 0.5) * 6;
-    });
-    ScrollTrigger.create({
-      trigger: '.w-tree', start: 'top bottom', end: 'bottom top', scrub: true,
-      onUpdate: (self) => { targetSway = Math.sin(self.progress * Math.PI * 3) * 2.5; }
-    });
-    (function swayTick() {
-      requestAnimationFrame(swayTick);
-      sway.forEach((s, i) => {
-        const k = 0.045 - i * 0.006, d = 0.92;
-        s.v += (targetSway * (1 + i * 0.25) - s.a) * k;
-        s.v *= d; s.a += s.v;
-        if (sticks[i]) sticks[i].style.rotate = s.a.toFixed(2) + 'deg';
-      });
-    })();
 
     /* impulse string — pointer-reactive spring curve */
     const path = document.getElementById('stringPath');

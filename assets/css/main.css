@@ -148,17 +148,9 @@ a{color:inherit}
 .tree-stage-wrap{position:relative;height:260vh;z-index:20}
 .tree-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;pointer-events:none}
 .tree-stage .t-ph{color:var(--st-grey-dark)}
-.composition{position:relative;z-index:2;min-height:100vh;height:100vw;
-  background-image:url("../images/home/tree.png");background-position:bottom;
-  background-repeat:no-repeat;background-size:auto 82%}
-.bamboo{position:absolute;left:24%;bottom:-4%;width:15%;aspect-ratio:280/1000;z-index:3}
-.bamboo .stick{position:absolute;inset:0;background-position:top;background-repeat:no-repeat;
-  background-size:cover;transform-origin:50% 100%;will-change:transform}
-.bamboo .s1{background-image:url("../images/home/bamboo-1.png");z-index:20}
-.bamboo .s2{background-image:url("../images/home/bamboo-2.png");z-index:10;scale:.8;translate:-35% 0;rotate:-8deg}
-.bamboo .s3{background-image:url("../images/home/bamboo-3.png");z-index:10;scale:.85;translate:20% 0}
-.bamboo .s4{background-image:url("../images/home/bamboo-4.png");z-index:5;scale:.75;translate:40% 0;rotate:10deg}
-.string-row{position:absolute;top:16%;left:0;right:0;z-index:4;text-align:center;pointer-events:none}
+.composition{position:relative;z-index:2;min-height:58vh;display:grid;place-items:center;
+  padding:10vh 0;background:var(--st-grey)}
+.string-row{position:relative;z-index:4;text-align:center;pointer-events:none}
 .string-svg{width:min(880px,80vw);height:60px;overflow:visible}
 .string-svg path{stroke:var(--st-purple);stroke-width:2}
 .string-row .tagline{font-family:var(--st-mono);font-size:.95rem;letter-spacing:.04em;
@@ -171,9 +163,7 @@ a{color:inherit}
   .w-giant{font-size:13.5vw;bottom:9%}
   .w-sub.s1{display:none}
   .t-ph{font-size:clamp(1.8rem,8vw,2.6rem)}
-  .composition{height:150vw;background-size:auto 45%;background-position:120% bottom}
-  .bamboo{width:26%;left:8%}
-  .string-row{top:auto;bottom:18%}
+  .composition{min-height:52vh}
 }
 .brand{display:flex;align-items:center;gap:.7em;text-decoration:none}
 .brand-mark{width:34px;height:34px;border-radius:9px;background:var(--red);display:grid;place-items:center}
