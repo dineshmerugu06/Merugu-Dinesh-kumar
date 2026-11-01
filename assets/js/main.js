@@ -59,6 +59,63 @@
 
   /* ---------- hero intro lives in sections.js (welcome) ---------- */
 
+  /* ---------- 3 · JOURNEY: pinned chapter ---------- */
+  const LINES = [
+    'MCA final year. One laptop. Zero shortcuts.',
+    'First website shipped. Then ten more — each sharper than the last.',
+    'Now I build for clients. Verified on phone and desktop, every single time.'
+  ];
+  const lineEl = document.getElementById('dlg-line');
+  const dlgBar = document.getElementById('dlg-bar');
+  const scramEl = document.getElementById('scramble');
+  const SCRAM = '█▓▒░<>/\\|#*';
+  let scramTimer = null;
+  function scrambleTo(text) {
+    if (!scramEl) return;
+    if (scramTimer) clearInterval(scramTimer);
+    let frame = 0;
+    scramTimer = setInterval(() => {
+      frame++;
+      const done = Math.floor(frame / 2);
+      let out = text.slice(0, done);
+      for (let i = done; i < text.length; i++) {
+        out += text[i] === ' ' ? ' ' : SCRAM[Math.floor(Math.random() * SCRAM.length)];
+      }
+      scramEl.textContent = out;
+      if (done >= text.length) { clearInterval(scramTimer); scramTimer = null; }
+    }, 40);
+  }
+
+  const jTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.s-journey', start: 'top top', end: '+=340%', scrub: 1, pin: true,
+      onUpdate: (self) => {
+        window.__storm = self.progress;
+        if (dlgBar) dlgBar.style.width = (self.progress * 100).toFixed(1) + '%';
+      }
+    }
+  });
+  jTl.call(() => scrambleTo('THE JOURNEY'), null, 0.05);
+  LINES.forEach((text, i) => {
+    const at = 0.6 + i * 1.5;
+    jTl.call(() => {
+      if (lineEl) {
+        gsap.fromTo(lineEl, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', overwrite: true });
+        lineEl.textContent = text;
+      }
+    }, null, at);
+    jTl.to({}, { duration: 1.4 });
+  });
+  jTl.to('.ch-outro', { opacity: 1, duration: 0.8, ease: 'none' }, '>-0.3');
+  jTl.to('#storm', { scale: 1.12, duration: 2.4, ease: 'none' }, 0);
+
+  /* ---------- journey skip ---------- */
+  const skipBtn2 = document.getElementById('dlg-skip');
+  if (skipBtn2) skipBtn2.addEventListener('click', () => {
+    const tree = document.querySelector('.w-tree');
+    if (tree && window.__lenis) window.__lenis.scrollTo(tree, { duration: 1.4 });
+  });
+
   /* ---------- reveals ---------- */
   gsap.utils.toArray('[data-reveal]').forEach((el) => {
     gsap.to(el, {

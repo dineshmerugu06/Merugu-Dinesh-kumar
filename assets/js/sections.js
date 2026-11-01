@@ -176,5 +176,37 @@
     }
   }
 
+  /* ---------- 5–9 · headline reveals ---------- */
+  gsap.utils.toArray('.t-head').forEach((h) => {
+    gsap.from(h, {
+      y: 60, opacity: 0, duration: 1.1, ease: 'power3.out',
+      scrollTrigger: { trigger: h, start: 'top 86%', once: true }
+    });
+  });
+  gsap.from('.f-giant', {
+    y: 80, opacity: 0, duration: 1.2, ease: 'power3.out',
+    scrollTrigger: { trigger: '.w-footer', start: 'top 78%', once: true }
+  });
+
+  /* ---------- header adapts over light sections ---------- */
+  const hud = document.querySelector('.hud-top');
+  if (hud) {
+    document.querySelectorAll('.w-tree, .w-masonry, .w-clarity').forEach((sec) => {
+      ScrollTrigger.create({
+        trigger: sec, start: 'top 64px', end: 'bottom 64px',
+        onToggle: (self) => hud.classList.toggle('on-light', self.isActive)
+      });
+    });
+  }
+
+  /* ---------- footer clock ---------- */
+  const fc2 = document.getElementById('footClock2');
+  if (fc2) {
+    const tick = () => {
+      try { fc2.textContent = new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: false }); } catch (e) {}
+    };
+    tick(); setInterval(tick, 1000);
+  }
+
   window.addEventListener('load', () => ScrollTrigger.refresh());
 })();
