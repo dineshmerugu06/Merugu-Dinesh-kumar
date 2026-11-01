@@ -8,12 +8,12 @@
     thanks: ['Thank you', 'Dhanyavaadalu', 'Gracias', 'Merci', 'Danke', 'Grazie', 'Arigato'],
     tagline: 'for stopping by',
     email: 'dinesh.merugu.kumar@gmail.com',
-    phone: '+91 93983 59538',
+    phone: '',
     copiedLabel: 'Copied!',
     starPoints: 10,
     links: [
-      { caption: 'More of my code', label: 'github.com/dineshmerugu06', href: 'https://github.com/dineshmerugu06' },
-      { caption: "Let's connect", label: 'linkedin.com/in/m-dinesh-23210b3a3', href: 'https://linkedin.com/in/m-dinesh-23210b3a3' }
+      { caption: 'Projects', label: 'github.com/dineshmerugu06', href: 'https://github.com/dineshmerugu06' },
+      { caption: "Let's connect", label: '+91 93983 59538', href: 'tel:+919398359538' }
     ]
   };
 
