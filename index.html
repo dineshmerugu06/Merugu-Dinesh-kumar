@@ -197,24 +197,35 @@
   </div>
 </section>
 
-<!-- ══════════ 9 · FOOTER ══════════ -->
-<footer class="w-footer" id="contact">
-  <div class="wrap">
-    <p class="micro"><span class="p">/</span> Transmit</p>
-    <h2 class="f-giant">Craft with <em>intent.</em></h2>
-    <div class="f-row">
-      <nav class="f-nav">
-        <a href="#top">Top</a>
-        <a href="projects.html">Skill Hub</a>
-        <a href="#techniques">Techniques</a>
-        <a href="#clarity">Principles</a>
-      </nav>
-      <p class="f-note">For websites that feel alive.<br>CSS-first. JS-light.</p>
+<!-- ══════════ 9 · STARBURST THANKS FOOTER ══════════ -->
+<footer class="stf" id="contact">
+  <div class="stf-fx" aria-hidden="true" id="stf-fx"></div>
+  <div class="stf-in">
+    <div id="stf-logo"></div>
+    <div class="stf-mid">
+      <div class="stf-stage">
+        <svg class="stf-orbit" id="stf-orbit" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path id="stf-orbit-path" vector-effect="non-scaling-stroke" d=""/>
+        </svg>
+        <span class="stf-star-wrap">
+          <button type="button" class="stf-star" id="stf-star" aria-label="Say thanks another way">
+            <span class="stf-star-pop" id="stf-pop">
+              <svg class="stf-star-svg" viewBox="-52 -52 104 104" aria-hidden="true" focusable="false">
+                <path id="stf-star-path" vector-effect="non-scaling-stroke" d=""/>
+              </svg>
+            </span>
+            <span class="stf-sparks" id="stf-sparks" aria-hidden="true"></span>
+          </button>
+        </span>
+        <h2 class="stf-h">
+          <span class="stf-sr" id="stf-sr"></span>
+          <span id="stf-word" aria-hidden="true"></span>
+        </h2>
+        <span id="stf-tagline"></span>
+      </div>
+      <p class="stf-signoff">now go build something sharp.</p>
     </div>
-    <div class="f-base">
-      <span>© Dinesh Kumar 2026</span>
-      <span class="f-clock" id="footClock2">--:--</span>
-    </div>
+    <nav class="stf-links" aria-label="Contact" id="stf-links"></nav>
   </div>
 </footer>
 
@@ -225,6 +236,7 @@
 <script src="./assets/js/main.js"></script>
 <script src="./assets/js/sections.js"></script>
 <script src="./assets/js/storm.js"></script>
+<script src="./assets/js/footer.js"></script>
 <script type="module" src="./assets/js/hero3d.js"></script>
 </body>
 </html>

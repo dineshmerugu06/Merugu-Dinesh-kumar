@@ -151,11 +151,6 @@
       scrollTrigger: { trigger: h, start: 'top 86%', once: true }
     });
   });
-  gsap.from('.f-giant', {
-    y: 80, opacity: 0, duration: 1.2, ease: 'power3.out',
-    scrollTrigger: { trigger: '.w-footer', start: 'top 78%', once: true }
-  });
-
   /* ---------- header adapts over light sections ---------- */
   const hud = document.querySelector('.hud-top');
   if (hud) {

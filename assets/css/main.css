@@ -247,21 +247,125 @@ a{color:inherit}
 .c-list b{font-family:var(--st-mono);font-weight:400;font-size:1rem;color:#c33d1e}
 .c-list p{font-size:clamp(1.15rem,2.2vw,1.6rem);font-family:var(--st-display);margin:0;letter-spacing:-.01em}
 
-/* footer */
-.w-footer{background:#0b0b0c;color:#fff;padding:14vh 0 3vh;position:relative;overflow:hidden}
-.f-giant{font-family:var(--st-display);font-weight:400;letter-spacing:-.02em;line-height:1;
-  font-size:clamp(3rem,10vw,9rem);margin:.6em 0 1em}
-.f-giant em{font-style:normal;color:var(--st-red)}
-.f-row{display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;
-  padding:2rem 0;border-top:1px solid #232326}
-.f-nav{display:flex;gap:1.8rem;flex-wrap:wrap}
-.f-nav a{font-family:var(--st-mono);font-size:.82rem;letter-spacing:.14em;color:#fff;
-  text-decoration:none;text-transform:uppercase}
-.f-nav a:hover{color:var(--st-red)}
-.f-note{font-family:var(--st-mono);font-size:.8rem;line-height:1.8;color:#8a8a8a;margin:0;text-align:right}
-.f-base{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
-  padding-top:1.6rem;border-top:1px solid #1c1c1f;
-  font-family:var(--st-mono);font-size:.75rem;letter-spacing:.12em;color:#8a8a8a}
+/* ══════════ 9 · STARBURST THANKS FOOTER ══════════ */
+.stf{--stf-bg:#0b0b0c;--stf-ink:#f4f1ea;--stf-accent:#ff4f36;--stf-display:var(--st-display);
+  --stf-sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--stf-grain:.16;
+  position:relative;isolation:isolate;overflow:hidden;overflow:clip;container-type:inline-size;
+  display:flex;flex-direction:column;width:100%;box-sizing:border-box;min-height:100svh;
+  background:var(--stf-bg);color:var(--stf-ink);font-family:var(--stf-sans);
+  -webkit-font-smoothing:antialiased;touch-action:pan-y}
+.stf::before{content:'';position:absolute;inset:-50%;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .7 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size:180px 180px;opacity:var(--stf-grain);mix-blend-mode:difference;
+  animation:stf-grain .9s steps(1) infinite}
+.stf::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 75% 70% at 50% 45%,transparent 45%,rgba(0,0,0,.55) 100%)}
+:where(.stf) button{appearance:none;background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer}
+:where(.stf) a{color:inherit;text-decoration:none}
+.stf :focus-visible{outline:2px solid var(--stf-accent);outline-offset:4px}
+.stf-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.stf-fx{position:absolute;inset:0;z-index:0;pointer-events:none}
+.stf-dust{position:absolute;border-radius:50%;background:var(--stf-ink)}
+.stf-scratch{position:absolute;width:1px;background:linear-gradient(transparent,var(--stf-ink),transparent);opacity:.18}
+.stf-in{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:clamp(28px,4.5cqw,60px) 16px clamp(28px,4cqw,56px)}
+.stf-logo{display:inline-flex;align-items:center;gap:.55em;font-size:clamp(12px,1.45cqw,18px)}
+.stf-mark{display:block;flex:none;max-width:none;overflow:visible}
+.stf-mark path{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;
+  transition:transform .45s cubic-bezier(.2,.9,.3,1.3)}
+.stf-mark-i path{stroke-width:1.7}
+.stf-logo:hover .stf-mark-l{transform:translateX(-1.6px)}
+.stf-logo:hover .stf-mark-r{transform:translateX(1.6px)}
+.stf-name{display:flex;flex-direction:column;font-family:var(--stf-display);font-weight:400;
+  text-transform:uppercase;line-height:.92;letter-spacing:.01em}
+.stf-mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:clamp(56px,8cqw,120px) 0 clamp(40px,6cqw,90px)}
+.stf-stage{position:relative;display:flex;flex-direction:column;align-items:center;
+  font-size:clamp(34px,8.6cqw,124px)}
+.stf-stage:hover{--stf-orot:-2.5deg;--stf-osc:1.03}
+.stf-h{position:relative;z-index:2;margin:0;font-family:var(--stf-display);font-weight:400;
+  font-size:1em;line-height:.95;letter-spacing:-.01em;text-transform:uppercase;white-space:nowrap;
+  transform:scaleX(1.12);color:var(--stf-ink)}
+.stf-ch{display:inline-block}
+.stf:not(.is-in) .stf-ch{opacity:0}
+.stf.is-in .stf-ch{animation:stf-drop .7s cubic-bezier(.2,1.5,.35,1) both}
+.stf-tag{position:relative;z-index:2;margin:.06em 0 0 -.3em;color:var(--stf-ink)}
+.stf-orbit{position:absolute;left:-11%;top:-32%;width:120%;height:154%;z-index:1;overflow:visible;
+  max-width:none;pointer-events:none;color:var(--stf-ink);
+  transform:translate(calc(var(--stf-px,0) * -6px),calc(var(--stf-py,0) * -4px)) rotate(var(--stf-orot,0deg)) scale(var(--stf-osc,1));
+  transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.stf-orbit path{fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;
+  stroke-dasharray:var(--l,999) var(--l,999);stroke-dashoffset:var(--l,999)}
+.stf.is-in .stf-orbit path{animation:stf-write 2.2s .25s cubic-bezier(.5,0,.3,1) forwards}
+.stf-star-wrap{position:absolute;z-index:3;right:-.62em;top:-1.2em;width:1.5em;height:1.5em;
+  transform:translate(calc(var(--stf-px,0) * 18px),calc(var(--stf-py,0) * 12px));
+  transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.stf-star{position:relative;display:block;width:100%;height:100%;border-radius:50%;
+  color:var(--stf-accent);transition:transform .35s cubic-bezier(.2,.9,.3,1.4)}
+.stf-star:hover{transform:scale(1.08)}
+.stf-star:active{transform:scale(.94)}
+.stf-star-pop{display:block;width:100%;height:100%}
+.stf-star-svg{display:block;width:100%;height:100%;max-width:none;overflow:visible;
+  animation:stf-spin 48s linear infinite;transition:filter .3s}
+.stf-star:hover .stf-star-svg{filter:drop-shadow(0 0 .1em var(--stf-accent))}
+.stf-star-svg path{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:miter}
+.stf-sparks{position:absolute;inset:0;pointer-events:none}
+.stf-spark{position:absolute;left:50%;top:50%;width:62%;height:2px;margin-top:-1px;
+  transform-origin:0 50%;transform:rotate(var(--a))}
+.stf-spark i{display:block;height:100%;border-radius:2px;background:var(--stf-accent);
+  transform-origin:0 50%;animation:stf-shoot .7s cubic-bezier(.15,.8,.3,1) forwards}
+.stf-signoff{position:relative;z-index:2;margin:2.4em 0 0;font-size:clamp(11px,1.15cqw,15px);
+  letter-spacing:.01em;opacity:.92}
+.stf-links{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;
+  gap:clamp(12px,1.4cqw,20px) clamp(8px,1cqw,14px);font-size:clamp(12px,1.3cqw,17px)}
+.stf-item{display:flex;flex-direction:column;align-items:center}
+.stf-item.has-hand{padding-bottom:1.3em}
+.stf-cap{height:1.9em;display:flex;align-items:flex-end;justify-content:center;margin-bottom:.3em}
+.stf-cap-copied{color:var(--stf-accent)}
+.stf-pillwrap{position:relative}
+.stf-pill{display:inline-flex;align-items:center;border:1.5px solid var(--stf-ink);
+  border-radius:999px;padding:.32em .85em;line-height:1.25;white-space:nowrap;color:var(--stf-ink);
+  transition:background .25s,color .25s,transform .25s cubic-bezier(.2,.9,.3,1.4)}
+.stf-pill:hover,.stf-pill:focus-visible{background:var(--stf-ink);color:var(--stf-bg)}
+.stf-pill:active{transform:scale(.96)}
+.stf-hand{position:absolute;left:54%;top:calc(100% - .75em);z-index:2;width:1.45em;height:1.85em;
+  pointer-events:none;animation:stf-bob 2.4s ease-in-out infinite}
+.stf-item:nth-child(4n+3) .stf-hand{animation-delay:-1.2s}
+.stf-hand svg{display:block;width:100%;height:100%;max-width:none;overflow:visible;
+  transition:transform .22s cubic-bezier(.2,.9,.3,1.4)}
+.stf-hand .stf-palm{fill:var(--stf-ink);stroke:var(--stf-bg);stroke-width:1.5;stroke-linejoin:round}
+.stf-hand .stf-knuckle{fill:none;stroke:var(--stf-bg);stroke-width:1.1;stroke-linecap:round}
+.stf-hand .stf-click{fill:none;stroke:var(--stf-ink);stroke-width:1.4;stroke-linecap:round;
+  opacity:0;transition:opacity .2s}
+.stf-pillwrap:hover .stf-hand svg,.stf-pillwrap:focus-within .stf-hand svg{transform:translateY(-14%) scale(.9)}
+.stf-pillwrap:hover .stf-click,.stf-pillwrap:focus-within .stf-click{opacity:1}
+.stf-sep{display:block;flex:none;width:.72em;height:.72em;margin-top:2.55em;max-width:none;
+  fill:var(--stf-ink);transition:transform .6s cubic-bezier(.2,.9,.3,1.3)}
+.stf-links:hover .stf-sep{transform:rotate(45deg) scale(1.15)}
+.stf-phone{margin-top:.75em;font-size:.92em;letter-spacing:.02em;opacity:.92;transition:color .2s}
+.stf-phone:hover{color:var(--stf-accent)}
+.stf-script{display:block;flex:none;max-width:none;overflow:visible}
+.stf .stf-script path{fill:none;stroke:currentColor;stroke-width:.85;stroke-linecap:round;
+  stroke-linejoin:round;stroke-dasharray:var(--l,999) var(--l,999);stroke-dashoffset:var(--l,999)}
+.stf.is-in .stf-script path{animation:stf-write .45s cubic-bezier(.6,.05,.3,1) forwards}
+@container (max-width:640px){
+  .stf-links{flex-direction:column;align-items:center}
+  .stf-sep{display:none}
+  .stf-cap{height:1.6em}}
+@keyframes stf-write{to{stroke-dashoffset:0}}
+@keyframes stf-drop{0%{opacity:0;transform:translateY(-.35em) rotate(-8deg)}60%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes stf-spin{to{transform:rotate(360deg)}}
+@keyframes stf-shoot{0%{transform:translateX(40%) scaleX(.15);opacity:1}100%{transform:translateX(110%) scaleX(.55);opacity:0}}
+@keyframes stf-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
+@keyframes stf-grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-5%)}60%{transform:translate(-6%,-2%)}80%{transform:translate(5%,4%)}}
+@media (prefers-reduced-motion:reduce){
+  .stf::before,.stf-star-svg,.stf-hand{animation:none}
+  .stf:not(.is-in) .stf-ch{opacity:1}
+  .stf.is-in .stf-ch{animation:none}
+  .stf .stf-script path,.stf .stf-orbit path{stroke-dashoffset:0}
+  .stf.is-in .stf-script path,.stf.is-in .stf-orbit path{animation:none}
+  .stf-sparks{display:none}
+  .stf-star-wrap,.stf-orbit{transform:none;transition:none}}
 
 @media(max-width:1000px){
   .t-grid{grid-template-columns:repeat(2,1fr)}
@@ -272,7 +376,6 @@ a{color:inherit}
   .t-grid{grid-template-columns:1fr}
   .m-grid{columns:1}
   .c-list li{grid-template-columns:52px 1fr}
-  .f-note{text-align:left}
 }
 
 /* header adapts over light sections */
