@@ -51,7 +51,7 @@ a{color:inherit}
 .topbar span{display:block;height:100%;background:var(--red);transform:scaleX(0);transform-origin:0 50%}
 
 /* shared */
-section{position:relative;overflow:hidden}
+.s-hero,.s-focus,.s-journey{position:relative;overflow:hidden}
 .wrap{padding:0 var(--gap);max-width:1600px;margin:0 auto;position:relative;z-index:1}
 .micro{font-family:var(--mono);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)}
 .micro .p{color:var(--red)}
