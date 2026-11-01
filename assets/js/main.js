@@ -549,21 +549,3 @@
 
   ScrollTrigger.refresh();
 })();
-
-// Katana sections - scroll animations
-if (window.gsap && window.ScrollTrigger) {
-  gsap.utils.toArray('.kt-card, .kt-grid4 li, .kt-list li').forEach((el, i) => {
-    gsap.to(el, {
-      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none reverse' },
-      delay: (i % 3) * 0.08
-    });
-  });
-  gsap.utils.toArray('.kt-h2, .kt-eyebrow, .kt-lead').forEach(el => {
-    gsap.from(el, {
-      opacity: 0, y: 40, duration: 1, ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none reverse' }
-    });
-  });
-}
-
