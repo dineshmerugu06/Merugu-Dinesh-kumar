@@ -1372,23 +1372,10 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
 .ripple-gen {
   position: absolute;
   inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
   transition: opacity 0.8s ease;
   z-index: 2;
-  background: #f4f1ea;
-}
-.ripple-gen-card {
-  position: relative;
-  width: min(640px, 85vw);
-  aspect-ratio: 16/9;
-  border-radius: 24px;
-  overflow: hidden;
   background: #faf8f5;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+  overflow: hidden;
 }
 .ripple-blobs {
   position: absolute;
@@ -1398,49 +1385,65 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
 .blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.7;
+  filter: blur(80px);
+  opacity: 0.6;
   animation: blobDrift 8s ease-in-out infinite;
 }
 .blob-1 {
-  width: 45%; height: 70%;
-  left: 5%; top: 15%;
-  background: linear-gradient(135deg, #a8b8ff, #d4c4ff);
+  width: 50%; height: 60%;
+  left: -5%; top: 5%;
+  background: linear-gradient(135deg, #b8c4ff, #dcc4ff);
   animation-delay: 0s;
 }
 .blob-2 {
-  width: 40%; height: 65%;
-  right: 8%; top: 20%;
-  background: linear-gradient(135deg, #ffb8a0, #ffd4b0);
+  width: 45%; height: 55%;
+  right: -5%; top: 15%;
+  background: linear-gradient(135deg, #ffc4a8, #ffdcc0);
   animation-delay: -2s;
 }
 .blob-3 {
-  width: 35%; height: 50%;
-  left: 30%; bottom: 5%;
+  width: 40%; height: 50%;
+  left: 20%; bottom: -5%;
   background: linear-gradient(135deg, #c4e8ff, #e8d4ff);
   animation-delay: -4s;
 }
+.blob-4 {
+  width: 35%; height: 45%;
+  right: 15%; bottom: 10%;
+  background: linear-gradient(135deg, #ffd4e8, #fff0d4);
+  animation-delay: -1s;
+}
+.blob-5 {
+  width: 30%; height: 40%;
+  left: 40%; top: 30%;
+  background: linear-gradient(135deg, #d4fff0, #e8f4ff);
+  animation-delay: -3s;
+}
 @keyframes blobDrift {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -20px) scale(1.1); }
-  66% { transform: translate(-20px, 25px) scale(0.95); }
+  33% { transform: translate(40px, -30px) scale(1.15); }
+  66% { transform: translate(-30px, 35px) scale(0.9); }
 }
 .ripple-gen-footer {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
+  bottom: 80px; left: 0; right: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
-  font-size: 14px;
-  color: #666;
-  background: linear-gradient(to top, rgba(250,248,245,0.9), transparent);
-}
-.ripple-gen-footer b { color: #111; font-weight: 600; }
-.ripple-gen-text {
+  padding: 16px 48px;
   font-size: 15px;
   color: #666;
+  z-index: 2;
+}
+.ripple-gen-footer b { color: #111; font-weight: 700; }
+.ripple-gen-text {
+  position: absolute;
+  bottom: 40px; left: 0; right: 0;
+  text-align: center;
+  font-size: 16px;
+  color: #666;
   margin: 0;
+  z-index: 2;
 }
 
 /* Phase 2: Water Ripple */
