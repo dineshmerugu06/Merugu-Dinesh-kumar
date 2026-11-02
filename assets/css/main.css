@@ -1497,7 +1497,6 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
   opacity: 0.9;
   margin: 0;
 }
-@media (max-width: 768px) {
   
 /* Ripple deck — circular testimonials style */
 .ripple-deck-wrap {
