@@ -184,8 +184,25 @@
     <canvas id="rippleCanvas"></canvas>
     <div class="ripple-content">
       <p class="ripple-eyebrow">Who I Build For</p>
-      <h2 class="ripple-title">What<br><em>we build.</em></h2>
-      <p class="ripple-sub">Startups · Creators · Businesses</p>
+      <div class="ripple-deck-wrap">
+        <div class="ripple-deck" id="rippleDeck">
+          <div class="ripple-stack" id="rippleStack">
+            <div class="r-card" data-i="0"><div class="r-card-img r-img-1"><span>Portfolio</span></div></div>
+            <div class="r-card" data-i="1"><div class="r-card-img r-img-2"><span>Business</span></div></div>
+            <div class="r-card" data-i="2"><div class="r-card-img r-img-3"><span>Templates</span></div></div>
+            <div class="r-card" data-i="3"><div class="r-card-img r-img-4"><span>Frontend</span></div></div>
+          </div>
+        </div>
+        <div class="ripple-text">
+          <h3 class="ripple-name" id="rippleName">Portfolio</h3>
+          <p class="ripple-role" id="rippleRole">Web Design</p>
+          <p class="ripple-desc" id="rippleDesc">Stunning portfolio websites that showcase your work and land clients. Built with modern tech, designed to impress.</p>
+          <div class="ripple-nav">
+            <button class="ripple-arrow" id="ripplePrev" aria-label="Previous">←</button>
+            <button class="ripple-arrow" id="rippleNext" aria-label="Next">→</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -259,5 +276,6 @@
 <script src="./assets/js/liquid-engine.js"></script>
 <script src="./assets/js/rfp-sculpture.js"></script>
   <script src="assets/js/water-ripple.js"></script>
+  <script src="assets/js/ripple-deck.js"></script>
 </body>
 </html>
