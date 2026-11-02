@@ -1241,3 +1241,53 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
 
 .c-right-particles{max-width:440px;margin:0}
 .c-right-particles canvas{display:block;cursor:crosshair}
+
+/* ══════════ Liquid Sculpture Hero (21st.dev port) ══════════ */
+.sh-root{position:relative;width:100%;height:100svh;min-height:640px;overflow:hidden;isolation:isolate;
+  background:#EBE9E5;color:#151514;font-family:'Space Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+  touch-action:pan-y;display:flex;flex-direction:column;box-sizing:border-box}
+.sh-root *,.sh-root *::before,.sh-root *::after{box-sizing:border-box}
+.sh-stage{position:absolute;inset:0;z-index:0;pointer-events:none}
+.sh-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .5s ease}
+.sh-fallback{position:absolute;display:block;max-width:none;user-select:none;-webkit-user-drag:none;transition:opacity .5s ease}
+.sh-root[data-gl="on"] .sh-canvas{opacity:1}
+.sh-root[data-gl="on"] .sh-fallback{opacity:0}
+.sh-backdrop{position:absolute;left:50%;z-index:0;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;user-select:none;
+  font-weight:600;letter-spacing:-.06em;line-height:.8;color:rgba(21,21,20,.05);font-size:20vw}
+.sh-nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:26px clamp(20px,4vw,48px) 0}
+.sh-brand{font-weight:600;font-size:17px;letter-spacing:-.02em;color:inherit;text-decoration:none}
+.sh-links{display:flex;align-items:center;gap:clamp(18px,2.4vw,36px);list-style:none;margin:0;padding:0}
+.sh-link{color:inherit;text-decoration:none;font-size:13.5px;opacity:.72;transition:opacity .2s}
+.sh-link:hover{opacity:1}
+.sh-navcta{color:#fff;text-decoration:none;font-size:13.5px;padding:10px 20px;border-radius:999px;background:#c33d1e;transition:transform .25s}
+.sh-navcta:hover{transform:translateY(-1px)}
+.sh-hint{position:absolute;z-index:1;transform:translate(-50%,0);display:flex;align-items:center;gap:10px;white-space:nowrap;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.5;pointer-events:none;transition:opacity .8s ease;font-family:ui-monospace,monospace}
+.sh-hint::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;animation:sh-pulse 2.4s ease-in-out infinite}
+.sh-root[data-touched="1"] .sh-hint{opacity:0}
+@keyframes sh-pulse{0%,100%{transform:scale(.6);opacity:.45}50%{transform:scale(1);opacity:1}}
+.sh-spacer{flex:1 1 auto;min-height:0}
+.sh-content{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);align-items:end;
+  gap:clamp(24px,4vw,72px);padding:0 clamp(20px,4vw,48px) clamp(28px,4vw,52px)}
+.sh-eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.62;margin:0 0 18px;
+  display:flex;align-items:center;gap:12px;font-family:ui-monospace,monospace}
+.sh-eyebrow::before{content:"";width:28px;height:1px;background:currentColor;opacity:.7}
+.sh-h1{font-weight:500;font-size:clamp(40px,7vw,110px);line-height:.92;letter-spacing:-.045em;margin:0}
+.sh-h1 .sh-line{display:block}
+.sh-accent{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:-.02em}
+.sh-aside{max-width:400px;justify-self:end;padding-bottom:.6em}
+.sh-body{font-size:clamp(15px,1.2vw,17px);line-height:1.5;margin:0 0 26px;opacity:.78}
+.sh-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:22px}
+.sh-btn{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 22px;border-radius:999px;background:#151514;
+  color:#EBE9E5;text-decoration:none;font-size:14.5px;font-weight:500;transition:transform .3s}
+.sh-btn:hover{transform:translateY(-1px)}
+.sh-txt{display:inline-flex;align-items:center;gap:8px;color:inherit;text-decoration:none;font-size:14.5px;font-weight:500;
+  padding:4px 0;border-bottom:1px solid rgba(21,21,20,.3)}
+@media(max-width:1023px){
+  .sh-content{grid-template-columns:1fr;gap:28px}
+  .sh-aside{justify-self:start;max-width:520px;padding-bottom:0}
+}
+@media(max-width:767px){
+  .sh-links li:not(.sh-keep){display:none}
+  .sh-h1{font-size:clamp(36px,11vw,60px)}
+}
