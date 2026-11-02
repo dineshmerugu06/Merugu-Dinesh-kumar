@@ -1358,3 +1358,165 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
 @keyframes rfp-pulse{0%,100%{transform:scale(.6);opacity:.45}50%{transform:scale(1);opacity:1}}
 .rfp-credit{position:absolute;z-index:5;right:2.5rem;bottom:1rem;font-size:10px;letter-spacing:.06em;color:inherit;opacity:.38;text-decoration:none}
 .rfp-credit:hover{opacity:.8}
+
+/* ══════════ 7 · WATER RIPPLE SECTION ══════════ */
+.w-ripple {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #f4f1ea;
+}
+
+/* Phase 1: AI Generation */
+.ripple-gen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  transition: opacity 0.8s ease;
+  z-index: 2;
+  background: #f4f1ea;
+}
+.ripple-gen-card {
+  position: relative;
+  width: min(640px, 85vw);
+  aspect-ratio: 16/9;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #faf8f5;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+}
+.ripple-blobs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.7;
+  animation: blobDrift 8s ease-in-out infinite;
+}
+.blob-1 {
+  width: 45%; height: 70%;
+  left: 5%; top: 15%;
+  background: linear-gradient(135deg, #a8b8ff, #d4c4ff);
+  animation-delay: 0s;
+}
+.blob-2 {
+  width: 40%; height: 65%;
+  right: 8%; top: 20%;
+  background: linear-gradient(135deg, #ffb8a0, #ffd4b0);
+  animation-delay: -2s;
+}
+.blob-3 {
+  width: 35%; height: 50%;
+  left: 30%; bottom: 5%;
+  background: linear-gradient(135deg, #c4e8ff, #e8d4ff);
+  animation-delay: -4s;
+}
+@keyframes blobDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.1); }
+  66% { transform: translate(-20px, 25px) scale(0.95); }
+}
+.ripple-gen-footer {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  font-size: 14px;
+  color: #666;
+  background: linear-gradient(to top, rgba(250,248,245,0.9), transparent);
+}
+.ripple-gen-footer b { color: #111; font-weight: 600; }
+.ripple-gen-text {
+  font-size: 15px;
+  color: #666;
+  margin: 0;
+}
+
+/* Phase 2: Water Ripple */
+.ripple-water {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  z-index: 1;
+}
+.ripple-water.active { z-index: 3; }
+#rippleCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.ripple-content {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  text-align: center;
+  color: #fff;
+}
+.ripple-eyebrow {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  opacity: 0.9;
+  margin: 0 0 16px;
+}
+.ripple-title {
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 600;
+  line-height: 1.05;
+  margin: 0 0 48px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+}
+.ripple-title em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+.ripple-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  width: 100%;
+}
+.ripple-card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: left;
+}
+.ripple-card h3 {
+  font-size: 20px;
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+.ripple-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.9;
+}
+@media (max-width: 768px) {
+  .ripple-grid { grid-template-columns: 1fr; }
+  .ripple-title { font-size: 48px; }
+}
