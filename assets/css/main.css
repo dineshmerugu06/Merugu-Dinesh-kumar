@@ -1314,3 +1314,18 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
 .fh-cta-solid:hover{transform:translateY(-2px)}
 .fh-cta-line{color:#151514;text-decoration:none;font-weight:500;border-bottom:1px solid rgba(21,21,20,.35);padding-bottom:.3rem;display:inline-flex;align-items:center;gap:.6rem}
 @media(max-width:768px){.fh-links{display:none}.fh-bottom{flex-direction:column;align-items:flex-start;padding:1.5rem 1.2rem 2.5rem}}
+
+/* ══════════ CLARITY with sculpture ══════════ */
+.w-clarity{position:relative;background:#f4f1ea;color:#151514;padding:6rem 0;overflow:hidden}
+.clarity-sculpture{position:absolute;inset:0;pointer-events:none;opacity:.9}
+.clarity-sculpture canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.w-clarity .wrap{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:0 2.5rem}
+.w-clarity .c-head{margin-bottom:3rem}
+.w-clarity h2{font-size:clamp(2.5rem,5vw,4.5rem);letter-spacing:-.03em;margin:0;font-weight:600}
+.w-clarity h2 em{color:#c33d1e;font-style:normal}
+.w-clarity .c-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;list-style:none;margin:12rem 0 0;padding:2rem 0 0;border-top:2px solid #151514}
+.w-clarity .c-grid li{border-bottom:1px solid rgba(21,21,20,.15);padding-bottom:1.5rem}
+.w-clarity .c-grid b{display:block;color:#c33d1e;font-weight:500;margin-bottom:.8rem}
+.w-clarity .c-grid p{margin:0;line-height:1.6;opacity:.85}
+@media(max-width:900px){.w-clarity .c-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.w-clarity .c-grid{grid-template-columns:1fr}}
