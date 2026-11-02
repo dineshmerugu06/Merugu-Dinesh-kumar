@@ -1489,34 +1489,11 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
   font-style: italic;
   font-weight: 400;
 }
-.ripple-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  max-width: 900px;
-  width: 100%;
-}
-.ripple-card {
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 20px;
-  padding: 32px 24px;
-  text-align: left;
-}
-.ripple-card h3 {
-  font-size: 20px;
-  margin: 0 0 12px;
-  font-weight: 600;
-}
-.ripple-card p {
-  font-size: 15px;
-  line-height: 1.6;
-  margin: 0;
+.ripple-sub {
+  font-size: 18px;
+  letter-spacing: 0.1em;
   opacity: 0.9;
+  margin: 0;
 }
 @media (max-width: 768px) {
-  .ripple-grid { grid-template-columns: 1fr; }
-  .ripple-title { font-size: 48px; }
-}
+  
