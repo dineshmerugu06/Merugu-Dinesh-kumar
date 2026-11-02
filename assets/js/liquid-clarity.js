@@ -41,9 +41,10 @@
       interactive: true,
       reducedMotion: false,
       restStyle: 'particles',
-      sim: { curl: 0.6, damping: 0.96, flow: 0.12, maxSpeed: 1.0, noise: 1.6 },
+      sim: { curl: 0.4, damping: 0.97, flow: 0.08, maxSpeed: 0.8, noise: 1.0 },
       visibility: { threshold: 0.08, margin: 240 },
-      dpr: [1, 2],
+      dpr: [1, 1.5],
+      density: 0.5,
       clearColor: [0, 0, 0, 0]
     });
 
