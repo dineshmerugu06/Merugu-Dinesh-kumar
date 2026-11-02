@@ -1,7 +1,26 @@
-/* Liquid "Ready for project" — WebGL2 particle text for the clarity section.
-   Uses LiquidEngine in TEXT mode. Vanilla port of the 21st.dev component logic. */
+/* Liquid "Ready for project" — WebGL2 particles for the clarity section.
+   Renders text to a canvas, uses it as the particle source image. */
 (function () {
   'use strict';
+
+  function makeTextImage(text, font) {
+    var c = document.createElement('canvas');
+    var ctx = c.getContext('2d', { willReadFrequently: true });
+    // Measure
+    ctx.font = font;
+    var w = Math.ceil(ctx.measureText(text).width) + 40;
+    var h = 120;
+    c.width = w;
+    c.height = h;
+    // Draw dark text on transparent (we'll key by alpha)
+    ctx.font = font;
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#1a1a1a';
+    ctx.fillText(text, 20, h / 2);
+    var img = new Image();
+    img.src = c.toDataURL('image/png');
+    return img;
+  }
 
   function init() {
     var canvas = document.getElementById('readyParticles');
@@ -10,9 +29,8 @@
     var container = canvas.parentElement;
     if (!container) return;
 
-    // Size the container for the text
     container.style.position = 'relative';
-    container.style.minHeight = '120px';
+    container.style.minHeight = '140px';
     canvas.style.position = 'absolute';
     canvas.style.inset = '0';
     canvas.style.width = '100%';
@@ -22,39 +40,31 @@
       auto: true,
       interactive: true,
       reducedMotion: false,
-      restStyle: 'particles',  // particles stay visible (not image mode)
-      sim: { curl: 0.55, damping: 0.965, flow: 0.1, maxSpeed: 0.9, noise: 1.5 },
+      restStyle: 'particles',
+      sim: { curl: 0.6, damping: 0.96, flow: 0.12, maxSpeed: 1.0, noise: 1.6 },
       visibility: { threshold: 0.08, margin: 240 },
       dpr: [1, 2],
-      clearColor: [0, 0, 0, 0],  // transparent (section has light bg)
-      image: {
-        mode: 'text',
-        text: 'Ready for project',
-        font: '600 64px "Space Grotesk", system-ui, sans-serif',
-        fit: 'contain',
-        padX: 0.06,
-        padY: 0.15,
-        sample: 3,  // denser sampling for text
-        ink: [0.08, 0.08, 0.08, 1],  // dark text color
-        inkMode: 'tint'
-      }
+      clearColor: [0, 0, 0, 0]
     });
 
-    // Trigger formation when scrolled into view
-    if ('IntersectionObserver' in window) {
-      var seen = false;
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting && !seen) {
-            seen = true;
-            engine.setText('Ready for project');
-            io.disconnect();
-          }
-        });
-      }, { threshold: 0.25 });
-      io.observe(container);
+    var textImg = makeTextImage(
+      'Ready for project',
+      '600 72px "Space Grotesk", system-ui, sans-serif'
+    );
+
+    function start() {
+      try {
+        engine.setImage(textImg);
+      } catch (e) {
+        /* engine handles fallback */
+      }
+    }
+
+    if (textImg.complete && textImg.naturalWidth) {
+      start();
     } else {
-      engine.setText('Ready for project');
+      textImg.onload = start;
+      textImg.onerror = start;
     }
   }
 
