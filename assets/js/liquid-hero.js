@@ -3,7 +3,7 @@
   var root = document.getElementById('liquid-hero');
   if (!root || !window.LiquidEngine) return;
 
-  var IMG_SRC = 'https://cdn.21st.dev/assets/mirror/ae/ae8c3de9003460e59182e950ccd345f68f27f9d0e4808b64c92c962a4eca7120.webp';
+  var IMG_SRC = 'assets/images/sculpture.webp';
   var BG = window.LiquidHexToRgb('#EBE9E5', [0.92, 0.91, 0.9]);
 
   var stage = root.querySelector('.sh-stage');
@@ -32,7 +32,7 @@
     var bandBottom = contentEl ? contentEl.offsetTop - 8 : h;
     var bandH = Math.max(80, bandBottom - bandTop);
     var rw, maxH;
-    if (w >= 1024) { rw = w * 1.02; maxH = bandH * 1.1; }
+    if (w >= 1024) { rw = w * 0.72; maxH = bandH * 0.95; }
     else if (w >= 640) { rw = w * 1.3; maxH = bandH * 1.15; }
     else { rw = w * 1.9; maxH = bandH * 1.2; }
     if (rw / aspect > maxH) rw = maxH * aspect;
@@ -110,7 +110,7 @@
 
     // load image
     var image = new Image();
-    image.crossOrigin = 'anonymous';
+    // local image, no CORS needed
     image.decoding = 'async';
     image.onload = function () {
       aspect = image.naturalWidth / image.naturalHeight || aspect;
