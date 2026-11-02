@@ -1274,3 +1274,18 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
   .sh-bottom{padding:1.5rem 1.2rem 2.5rem;flex-direction:column;align-items:flex-start}
   .sh-credit{display:none}
 }
+
+/* ══════════ CLARITY (rebuilt from scratch) ══════════ */
+.w-clarity{background:#f4f1ea;color:#151514;padding:6rem 0}
+.w-clarity .wrap{max-width:1400px;margin:0 auto;padding:0 2.5rem}
+.w-clarity .c-head{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;margin-bottom:3rem;flex-wrap:wrap}
+.w-clarity h2{font-size:clamp(2.5rem,5vw,4.5rem);letter-spacing:-.03em;margin:0;font-weight:600}
+.w-clarity h2 em{color:#c33d1e;font-style:normal}
+.w-clarity .c-particles{position:relative;min-width:300px;min-height:100px;display:flex;align-items:center;justify-content:flex-end}
+.w-clarity .c-particles canvas{display:block;cursor:crosshair}
+.w-clarity .c-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;list-style:none;margin:0;padding:2rem 0 0;border-top:2px solid #151514}
+.w-clarity .c-grid li{border-bottom:1px solid rgba(21,21,20,.15);padding-bottom:1.5rem}
+.w-clarity .c-grid b{display:block;color:#c33d1e;font-weight:500;margin-bottom:.8rem}
+.w-clarity .c-grid p{margin:0;line-height:1.6;opacity:.85}
+@media(max-width:900px){.w-clarity .c-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.w-clarity .c-grid{grid-template-columns:1fr}}
