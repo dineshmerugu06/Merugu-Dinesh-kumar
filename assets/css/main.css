@@ -240,12 +240,13 @@ a{color:inherit}
 .f-card p{color:#a399a8;line-height:1.7;margin:0;font-size:.98rem}
 
 /* clarity */
-.c-sub{font-size:clamp(1.05rem,1.8vw,1.35rem);color:#5a5a52;margin:-1em 0 2.4em;max-width:52ch}
-.c-list{list-style:none;margin:0;padding:0;border-top:2px solid #101214}
-.c-list li{display:grid;grid-template-columns:80px 1fr;gap:1.4rem;align-items:baseline;
+.c-head{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;margin-bottom:3em;flex-wrap:wrap}
+.c-right{font-family:var(--st-mono);font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:#5a5a52;margin:0;max-width:220px;text-align:right}
+.c-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;border-top:2px solid #101214;padding-top:2rem}
+.c-grid li{align-items:baseline;
   padding:1.6rem 0;border-bottom:1px solid rgba(16,18,20,.16)}
-.c-list b{font-family:var(--st-mono);font-weight:400;font-size:1rem;color:#c33d1e}
-.c-list p{font-size:clamp(1.15rem,2.2vw,1.6rem);font-family:var(--st-display);margin:0;letter-spacing:-.01em}
+.c-grid b{font-family:var(--st-mono);font-weight:400;font-size:1rem;color:#c33d1e;display:block;margin-bottom:.8em}
+.c-grid p{font-size:1.05rem;font-family:var(--st-display);margin:0;line-height:1.5;color:#3a3632}
 
 /* ══════════ 9 · STARBURST THANKS FOOTER ══════════ */
 .stf{--stf-bg:#0b0b0c;--stf-ink:#f4f1ea;--stf-accent:#ff4f36;--stf-display:var(--st-display);
@@ -375,7 +376,8 @@ a{color:inherit}
 @media(max-width:600px){
   .t-grid{grid-template-columns:1fr}
   .m-grid{columns:1}
-  .c-list li{grid-template-columns:52px 1fr}
+  .c-grid{grid-template-columns:repeat(2,1fr)}
+  .c-grid li{grid-template-columns:52px 1fr}
 }
 
 /* header adapts over light sections */
