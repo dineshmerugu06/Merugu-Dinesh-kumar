@@ -1,5 +1,4 @@
-/* Dinesh PP v2 — motion core: Lenis + GSAP ScrollTrigger.
-   Choreography re-engineered from the live string-tune.fiddle.digital (study only). */
+/* Dinesh PP — motion core: Lenis + GSAP ScrollTrigger. */
 (function () {
   gsap.registerPlugin(ScrollTrigger);
 

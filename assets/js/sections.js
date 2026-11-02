@@ -1,5 +1,5 @@
 /* Dinesh PP — welcome / transition / tree choreography.
-   Rebuilt from the string-tune reference sections (study model), vanilla GSAP port. */
+   Rebuilt from the reference reference sections (study model), vanilla GSAP port. */
 (function () {
   gsap.registerPlugin(ScrollTrigger);
 

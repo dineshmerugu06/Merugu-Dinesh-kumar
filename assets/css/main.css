@@ -1,4 +1,4 @@
-/* Dinesh PP v2 — re-engineered from the LIVE string-tune.fiddle.digital.
+/* Dinesh PP v2 — re-engineered from the LIVE reference.fiddle.digital.
    Tokens observed live: #0b0b0c page, #f4f1ea clarity panel, vermillion #d9381e accent.
    Original copy and art throughout — structure studied, nothing copied. */
 :root{
@@ -72,7 +72,7 @@ a{color:inherit}
 .pill-hot:hover{background:var(--red-dim)}
 .pill-ghost{background:transparent}
 
-/* ══ WELCOME / TRANSITION / TREE — ported from string-tune reference ══ */
+/* ══ WELCOME / TRANSITION / TREE — ported from reference reference ══ */
 :root{
   --st-black:#101214;
   --st-grey:#e6dfe4;
