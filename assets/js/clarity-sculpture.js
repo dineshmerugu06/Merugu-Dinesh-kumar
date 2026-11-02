@@ -7,14 +7,31 @@
     var root = canvas.closest('.w-clarity');
     if (!root) return;
     var engine = new LiquidEngine(canvas, {
-      auto: true, interactive: true, reducedMotion: false, restStyle: 'image',
-      sim: { curl: 0.55, damping: 0.965, flow: 0.1, maxSpeed: 0.9, noise: 1.5 },
-      visibility: { threshold: 0.05, margin: 200 },
-      dpr: [1, 2], clearColor: [0, 0, 0, 0]
+      interactive: true,
+      strength: 1,
+      radius: 220,
+      density: 1,
+      dotSize: 1,
+      spread: 1,
+      turbulence: 1,
+      returnSpeed: 1,
+      streaks: true,
+      restStyle: 'image',
+      ambient: false,
+      ambientIntensity: 1,
+      speed: 1,
+      intro: false,
+      reducedMotion: false,
+      bg: [0.957, 0.945, 0.918],
+      imgBg: null,
+      liquid: 1
+    }, function () {
+      root.classList.add('no-gl');
     });
     var img = new Image();
     img.src = 'assets/images/sculpture.webp';
     img.onload = function () { try { engine.setImage(img); } catch (e) {} };
+    img.onerror = function () { root.classList.add('no-gl'); };
     ['pointermove', 'pointerdown'].forEach(function (ev) {
       root.addEventListener(ev, function (e) {
         var r = canvas.getBoundingClientRect();
