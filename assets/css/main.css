@@ -1329,3 +1329,21 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
 .w-clarity .c-grid p{margin:0;line-height:1.6;opacity:.85}
 @media(max-width:900px){.w-clarity .c-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.w-clarity .c-grid{grid-template-columns:1fr}}
+
+/* ══════════ 8 · READY FOR PROJECT (exact Forma reference) ══════════ */
+.rfp{position:relative;min-height:100svh;background:#f4f1ea;color:#151514;overflow:hidden;display:flex;flex-direction:column}
+.rfp-backdrop{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(200px,38vw,560px);line-height:1;letter-spacing:-.04em;color:#151514;opacity:.05;pointer-events:none;user-select:none;white-space:nowrap}
+.rfp-stage{position:absolute;inset:0;pointer-events:none}
+.rfp-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.rfp-bottom{position:relative;z-index:5;margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;gap:3rem;padding:2.5rem 2.5rem 3rem;flex-wrap:wrap}
+.rfp-eyebrow{display:flex;align-items:center;gap:.8rem;font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;opacity:.6;margin:0 0 1.2rem}
+.rfp-eyebrow span{display:block;width:2.2rem;height:1px;background:#151514;opacity:.5}
+.rfp-title{font-size:clamp(3rem,7vw,6.5rem);line-height:.95;letter-spacing:-.03em;margin:0;font-weight:600}
+.rfp-title em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400}
+.rfp-right{max-width:380px}
+.rfp-desc{font-size:1.02rem;line-height:1.6;opacity:.75;margin:0 0 1.8rem}
+.rfp-ctas{display:flex;align-items:center;gap:1.8rem;flex-wrap:wrap}
+.rfp-cta-solid{display:inline-flex;align-items:center;gap:.7rem;background:#151514;color:#f4f1ea;text-decoration:none;font-weight:600;padding:1rem 1.8rem;border-radius:999px;transition:transform .25s}
+.rfp-cta-solid:hover{transform:translateY(-2px)}
+.rfp-cta-line{color:#151514;text-decoration:none;font-weight:500;border-bottom:1px solid rgba(21,21,20,.35);padding-bottom:.3rem;display:inline-flex;align-items:center;gap:.6rem}
+@media(max-width:768px){.rfp-bottom{padding:1.5rem 1.2rem 2.5rem;flex-direction:column;align-items:flex-start}}
