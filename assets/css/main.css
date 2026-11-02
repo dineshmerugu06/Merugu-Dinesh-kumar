@@ -1238,3 +1238,6 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
 
 /* Scroll animations - initial state */
 .pp-card,.pp-proj,.pp-aud,.pp-steps li{opacity:0;transform:translateY(30px)}
+
+.c-right-particles{max-width:440px;margin:0}
+.c-right-particles canvas{display:block;cursor:crosshair}
