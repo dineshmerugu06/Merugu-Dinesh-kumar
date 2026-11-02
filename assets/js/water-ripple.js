@@ -126,16 +126,19 @@
       drawWater();
     }
 
-    // Start when section is visible
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting && !phase1Done && progress === 0) {
-          requestAnimationFrame(phase1);
-          io.disconnect();
-        }
-      });
-    }, { threshold: 0.3 });
-    io.observe(section);
+    // Start animation immediately with a small delay
+    setTimeout(function() {
+      if (!phase1Done && progress === 0) {
+        requestAnimationFrame(phase1);
+      }
+    }, 500);
+    // Fallback: if still at 0 after 3s, force start
+    setTimeout(function() {
+      if (!phase1Done && progress === 0) {
+        progress = 1;
+        requestAnimationFrame(phase1);
+      }
+    }, 3000);
   }
 
   if (document.readyState === 'loading') {
