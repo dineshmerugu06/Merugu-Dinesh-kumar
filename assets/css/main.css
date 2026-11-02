@@ -1347,3 +1347,14 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
 .rfp-cta-solid:hover{transform:translateY(-2px)}
 .rfp-cta-line{color:#151514;text-decoration:none;font-weight:500;border-bottom:1px solid rgba(21,21,20,.35);padding-bottom:.3rem;display:inline-flex;align-items:center;gap:.6rem}
 @media(max-width:768px){.rfp-bottom{padding:1.5rem 1.2rem 2.5rem;flex-direction:column;align-items:flex-start}}
+
+/* ══════════ 8 · READY FOR PROJECT — exact reference refinements ══════════ */
+.rfp{font-family:'Inter','Helvetica Neue',Arial,sans-serif}
+.rfp-title em{font-family:'Instrument Serif','Times New Roman',serif}
+.rfp-fallback{position:absolute;opacity:0;transition:opacity .5s ease;max-width:none;pointer-events:none}
+.rfp[data-gl="on"] .rfp-fallback{opacity:0}
+.rfp-hint{position:absolute;z-index:4;left:50%;transform:translateX(-50%);top:18%;display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.5;pointer-events:none}
+.rfp-hint::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;animation:rfp-pulse 2.4s ease-in-out infinite}
+@keyframes rfp-pulse{0%,100%{transform:scale(.6);opacity:.45}50%{transform:scale(1);opacity:1}}
+.rfp-credit{position:absolute;z-index:5;right:2.5rem;bottom:1rem;font-size:10px;letter-spacing:.06em;color:inherit;opacity:.38;text-decoration:none}
+.rfp-credit:hover{opacity:.8}
