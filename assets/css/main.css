@@ -1468,7 +1468,7 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
   justify-content: center;
   padding: 80px 24px;
   text-align: center;
-  color: #fff;
+  color: #111;
 }
 .ripple-eyebrow {
   font-size: 13px;
@@ -1482,7 +1482,6 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
   font-weight: 600;
   line-height: 1.05;
   margin: 0 0 48px;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.2);
 }
 .ripple-title em {
   font-family: 'Instrument Serif', serif;

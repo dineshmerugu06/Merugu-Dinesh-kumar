@@ -80,14 +80,14 @@
       function drawWater() {
         // Water gradient background (teal/blue like the reference lake)
         var grad = ctx.createLinearGradient(0, 0, 0, h);
-        grad.addColorStop(0, '#7ec8c8');
-        grad.addColorStop(0.5, '#4aa8a8');
-        grad.addColorStop(1, '#2a8080');
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(0.5, '#f8f8f8');
+        grad.addColorStop(1, '#f0f0f0');
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, w, h);
 
         // Animated wave lines
-        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+        ctx.strokeStyle = 'rgba(0,0,0,0.08)';
         ctx.lineWidth = 2;
         var t = Date.now() / 1000;
         for (var y = 0; y < h; y += 30) {
@@ -109,13 +109,13 @@
             rp.y = Math.random() * h;
           }
           var alpha = rp.alpha * (1 - rp.r / rp.maxR);
-          ctx.strokeStyle = 'rgba(255,255,255,' + alpha + ')';
+          ctx.strokeStyle = 'rgba(0,0,0,' + (alpha * 0.6) + ')';
           ctx.lineWidth = 2;
           ctx.beginPath();
           ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
           ctx.stroke();
           // Inner ripple
-          ctx.strokeStyle = 'rgba(255,255,255,' + (alpha * 0.5) + ')';
+          ctx.strokeStyle = 'rgba(0,0,0,' + (alpha * 0.3) + ')';
           ctx.beginPath();
           ctx.arc(rp.x, rp.y, rp.r * 0.7, 0, Math.PI * 2);
           ctx.stroke();
