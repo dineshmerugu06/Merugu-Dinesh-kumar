@@ -25,7 +25,7 @@
 <div id="stage">
   <canvas id="pv-canvas"></canvas>
   <img class="fallback" id="pv-fallback" alt="">
-  <div class="hint"><span class="dot"></span>Place your cursor on the hand</div>
+  <div class="hint"><span class="dot"></span>Place your cursor on Venom</div>
 </div>
 <script src="liquid-engine-experiment.js?v=1"></script>
 <script>
@@ -46,32 +46,24 @@
     f.style.display = 'block';
   });
 
-  var aspect = 1920 / 1280;
-  var poseSrcs = ['hand-full.jpg?v=1', 'pose-curl.jpg?v=1', 'pose-fist.jpg?v=1'];
-  var poseImgs = [];
-  var posesReady = false;
-  poseSrcs.forEach(function (src, i) {
-    var im = new Image();
-    im.crossOrigin = 'anonymous';
-    im.src = src;
-    im.onload = function () {
-      poseImgs[i] = im;
-      if (poseImgs.length === poseSrcs.length && poseImgs.every(Boolean)) {
-        try {
-          aspect = poseImgs[0].naturalWidth / poseImgs[0].naturalHeight || aspect;
-          engine.setImage(poseImgs[0]);
-          engine.setPoses(poseImgs);
-          posesReady = true;
-          layout();
-        } catch (e) { /* fallback shows */ }
-      }
-    };
-    im.onerror = function () {
-      var f = document.getElementById('pv-fallback');
-      f.src = 'hand-full.jpg?v=1';
-      f.style.display = 'block';
-    };
-  });
+  var aspect = 736 / 1300;
+  var src = 'venom.jpg?v=1';
+  var venomImg = new Image();
+  venomImg.crossOrigin = 'anonymous';
+  venomImg.src = src;
+  venomImg.onload = function () {
+    try {
+      aspect = venomImg.naturalWidth / venomImg.naturalHeight || aspect;
+      engine.setImage(venomImg);
+      layout();
+    } catch (e) { showFallback(); }
+  };
+  venomImg.onerror = showFallback;
+  function showFallback() {
+    var f = document.getElementById('pv-fallback');
+    f.src = src;
+    f.style.display = 'block';
+  }
 
 
   function layout() {
@@ -92,37 +84,13 @@
 
 
 
-  // GESTURE: the hand itself moves — open -> curl -> fist -> curl -> open
-  var gestureOn = false;
-  function playGesture() {
-    if (gestureOn || !posesReady || typeof engine.setMorphPair !== 'function') return;
-    gestureOn = true;
-    var legs = [[0, 1], [1, 2], [2, 1], [1, 0]];
-    var legDur = 620;
-    var start = performance.now();
-    engine.setMorphPair(0, 1, 0);
-    function step(now) {
-      var t = (now - start) / (legs.length * legDur);
-      if (t >= 1) { gestureOn = false; engine.setMorphPair(0, 0, 0); return; }
-      var ft = t * legs.length;
-      var i = Math.min(legs.length - 1, Math.floor(ft));
-      var k = ft - i;
-      var e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-      engine.setMorphPair(legs[i][0], legs[i][1], e);
-      requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
+  // cursor interaction: liquid distortion follows the pointer (engine handles it)
 
   ['pointermove', 'pointerdown'].forEach(function (ev) {
     stage.addEventListener(ev, function (e) {
       var r = canvas.getBoundingClientRect();
       var mx = e.clientX - r.left, my = e.clientY - r.top;
       engine.pointer(ev === 'pointermove' ? 'move' : 'down', mx, my, e.pointerType === 'touch');
-      // cursor placed on the hand -> the hand itself moves
-      var dx = (mx - r.width / 2) / (r.width / 2);
-      var dy = (my - r.height / 2) / (r.height / 2);
-      if (dx * dx + dy * dy < 0.6) playGesture();
     }, { passive: true });
   });
 
