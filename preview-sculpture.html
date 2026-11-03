@@ -42,14 +42,14 @@
     bg: [0.957, 0.945, 0.918], imgBg: null, liquid: 1
   }, function () {
     var f = document.getElementById('pv-fallback');
-    f.src = 'assets/images/sculpture/portrait.jpg?v=1';
+    f.src = 'assets/images/sculpture/portrait-flow.jpg?v=1';
     f.style.display = 'block';
   });
 
-  var aspect = 378 / 437;
+  var aspect = 1920 / 640;
   var img = new Image();
   img.crossOrigin = 'anonymous';
-  img.src = 'assets/images/sculpture/portrait.jpg?v=1';
+  img.src = 'assets/images/sculpture/portrait-flow.jpg?v=1';
 
   function layout() {
     var w = stage.clientWidth, h = stage.clientHeight;
