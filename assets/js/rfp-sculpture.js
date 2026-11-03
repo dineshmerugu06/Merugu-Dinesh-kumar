@@ -23,7 +23,7 @@
     var aspect = 1983 / 793;
     var img = new Image();
     img.crossOrigin = 'anonymous';
-    img.src = 'assets/images/sculpture/sculpture-light.webp';
+    img.src = 'assets/images/sculpture/sculpture-punch.jpg?v=1';
 
     function layout() {
       var w = root.clientWidth;
