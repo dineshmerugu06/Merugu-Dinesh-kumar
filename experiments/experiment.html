@@ -261,9 +261,12 @@
     }
   }, { passive: true });
 
-  stage.addEventListener('pointerleave', function () { target = 0; });
+  stage.addEventListener('pointerleave', function (e) {
+    if (e.pointerType !== 'touch') target = 0; // touch taps latch; only mouse hover recedes
+  });
 
   stage.addEventListener('pointerdown', function (e) {
+    if (e.pointerType !== 'touch') return; // desktop stays hover-driven
     if (pointInImg(e.clientX, e.clientY)) {
       setContact(e.clientX, e.clientY);
       target = target === 1 ? 0 : 1; // touch: tap toggles
