@@ -91,6 +91,9 @@ var SIM_FS = ['#version 300 es',
 'uniform float uTime;',
 'uniform float uDt;',
 'uniform float uIntro;',
+'uniform vec2 uPunchOrigin;',
+'uniform vec2 uPunchDir;',
+'uniform float uPunchT;',
 NOISE,
 'vec2 curl(vec2 p){',
 '  const float e = 0.35;',
@@ -119,6 +122,16 @@ NOISE,
 '  vec2 acc = vec2(0.0);',
 '  acc += n*f*1.25*uStrength*uSpread*light;',
 '  acc += vec2(-n.y, n.x)*f*1.45*uStrength*uSpread*(0.4+sd);',
+'  if(uPunchT>=0.0){',
+'    vec2 prel = p-uPunchOrigin;',
+'    float palong = dot(prel,uPunchDir);',
+'    float pside = dot(prel,vec2(-uPunchDir.y,uPunchDir.x));',
+'    float pfront = uPunchT*1100.0;',
+'    float pband = exp(-pow((palong-pfront)/240.0,2.0))*step(-120.0,palong);',
+'    float plat = exp(-pow(pside/260.0,2.0));',
+'    float pdec = exp(-uPunchT*2.4);',
+'    acc += uPunchDir*(pband*plat*pdec*3200.0*light);',
+'  }',
 '  acc += (wake*42.0*uSpread*light - vel)*e*0.08;',
 '  vec2 q = p*0.0095 + vec2(uTime*0.35, -uTime*0.2);',
 '  vec2 c = curl(q) + 0.5*curl(q*2.3 + 7.1);',
@@ -318,7 +331,8 @@ function LiquidEngine(canvas, opts, onFail) {
   this.prevMouse = { x: -9999, y: -9999 };
   this.mvel = { x: 0, y: 0 };
   this.presence = 0; this.presenceTarget = 0;
-  this.burst = 0; this.lastInput = -1e9; this.settle = 1e9; this.touchRelease = 0;
+  this.burst = 0; this.lastInput = -1e9;
+  this.punchT = -1; this.punchOx = 0; this.punchOy = 0; this.punchDx = 1; this.punchDy = 0; this.settle = 1e9; this.touchRelease = 0;
   this.time = 0; this.introT = 1;
   this.raf = 0; this.running = false; this.last = 0; this.skip = 0;
   this.visible = true; this.ready = false; this.destroyed = false; this.lost = false;
@@ -576,6 +590,17 @@ LiquidEngine.prototype.pointer = function (type, x, y, touch) {
   if (type === 'down') { this.burst = 1; this.touchRelease = 0; }
   this.wake();
 };
+LiquidEngine.prototype.punchAt = function (x, y) {
+  if (!this.opts.interactive || this.lost || !this.rect || !this.ready) return;
+  var r = this.rect;
+  var fx = r.w / 2, fy = r.h / 2;
+  var dx = (x - r.x) - fx, dy = (y - r.y) - fy;
+  var len = Math.sqrt(dx * dx + dy * dy) || 1;
+  this.punchOx = fx; this.punchOy = fy;
+  this.punchDx = dx / len; this.punchDy = dy / len;
+  this.punchT = 0;
+  this.wake();
+};
 
 LiquidEngine.prototype.wake = function () {
   if (!this.ready || this.running || !this.visible || this.destroyed || this.lost) {
@@ -706,6 +731,10 @@ LiquidEngine.prototype.stepSim = function (dt) {
   gl.uniform1f(P.u.uTime, this.time);
   gl.uniform1f(P.u.uDt, dt);
   gl.uniform1f(P.u.uIntro, intro);
+  if (this.punchT >= 0) { this.punchT += dt; if (this.punchT > 1.4) this.punchT = -1; }
+  gl.uniform2f(P.u.uPunchOrigin, this.punchOx, this.punchOy);
+  gl.uniform2f(P.u.uPunchDir, this.punchDx, this.punchDy);
+  gl.uniform1f(P.u.uPunchT, this.punchT);
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   this.stateIdx = dst;
   this.stateDirty = true;

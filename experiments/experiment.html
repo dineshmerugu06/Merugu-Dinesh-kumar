@@ -52,69 +52,6 @@
   img.src = 'hand-full.jpg?v=1';
 
 
-  // PUNCH EFFECT: the fist travels across the screen toward the cursor,
-  // strikes, shakes on impact, then retracts — a real punching motion.
-  var restRect = null;
-  var punchAnim = null;
-  var lastPunch = 0;
-  function triggerPunch(mx, my) {
-    var now = performance.now();
-    if (punchAnim || !restRect || now - lastPunch < 1100) return;
-    lastPunch = now;
-    var fx = restRect.x + restRect.w / 2;
-    var fy = restRect.y + restRect.h / 2;
-    punchAnim = {
-      start: now, dur: 900,
-      fx: fx, fy: fy,
-      tx: fx + (mx - fx) * 0.55,   // punch 55% of the way to the cursor
-      ty: fy + (my - fy) * 0.55
-    };
-    requestAnimationFrame(punchFrame);
-  }
-  function punchFrame(now) {
-    if (!punchAnim) return;
-    var a = punchAnim;
-    var t = (now - a.start) / a.dur;
-    var W = stage.clientWidth, H = stage.clientHeight;
-    if (t >= 1) {
-      punchAnim = null;
-      engine.resize(W, H, restRect);
-      return;
-    }
-    var cx, cy, s;
-    // wind-up anchor: pull back away from the target before striking
-    var wx = a.fx - (a.tx - a.fx) * 0.35;
-    var wy = a.fy - (a.ty - a.fy) * 0.35;
-    if (t < 0.16) {
-      // WIND-UP: hand draws back, coiling
-      var k = t / 0.16, e = k * k;
-      cx = a.fx + (wx - a.fx) * e;
-      cy = a.fy + (wy - a.fy) * e;
-      s = 1 - 0.12 * e;
-    } else if (t < 0.34) {
-      // STRIKE: explodes from wind-up through the target
-      var k2 = (t - 0.16) / 0.18, e2 = 1 - Math.pow(1 - k2, 3);
-      cx = wx + (a.tx - wx) * e2;
-      cy = wy + (a.ty - wy) * e2;
-      s = 0.88 + 0.67 * e2;
-    } else if (t < 0.44) {
-      // IMPACT: shake on contact
-      var k3 = (t - 0.34) / 0.10;
-      cx = a.tx + Math.sin(k3 * Math.PI * 3) * 9 * (1 - k3);
-      cy = a.ty + Math.cos(k3 * Math.PI * 3) * 9 * (1 - k3);
-      s = 1.55;
-    } else {
-      // RETRACT: ease back to rest
-      var k4 = (t - 0.44) / 0.56, e4 = 1 - Math.pow(1 - k4, 2);
-      cx = a.tx + (a.fx - a.tx) * e4;
-      cy = a.ty + (a.fy - a.ty) * e4;
-      s = 1.55 - 0.55 * e4;
-    }
-    var w = restRect.w * s, h = restRect.h * s;
-    engine.resize(W, H, { x: cx - w / 2, y: cy - h / 2, w: w, h: h });
-    requestAnimationFrame(punchFrame);
-  }
-
   function layout() {
     var w = stage.clientWidth, h = stage.clientHeight;
     var bandTop = h * 0.05, bandBottom = h * 0.88;
@@ -123,8 +60,7 @@
     if (rw / aspect > maxH) rw = maxH * aspect;
     var rh = rw / aspect;
     var cx = w * 0.5, cy = (bandTop + bandBottom) / 2;
-    restRect = { x: cx - rw / 2, y: cy - rh / 2, w: rw, h: rh };
-    if (!punchAnim) engine.resize(w, h, restRect);
+    engine.resize(w, h, { x: cx - rw / 2, y: cy - rh / 2, w: rw, h: rh });
     var f = document.getElementById('pv-fallback');
     f.style.left = (cx - rw / 2) + 'px';
     f.style.top = (cy - rh / 2) + 'px';
@@ -148,7 +84,13 @@
       // cursor placed on the fist -> punch
       var dx = (mx - r.width / 2) / (r.width / 2);
       var dy = (my - r.height / 2) / (r.height / 2);
-      if (dx * dx + dy * dy < 0.55) triggerPunch(mx, my);
+      if (dx * dx + dy * dy < 0.55) {
+        var now = performance.now();
+        if (now - (window.__lastPunch || 0) > 1000) {
+          window.__lastPunch = now;
+          engine.punchAt(mx, my);
+        }
+      }
     }, { passive: true });
   });
 
