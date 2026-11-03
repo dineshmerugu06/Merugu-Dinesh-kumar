@@ -52,31 +52,58 @@
   img.src = 'fist.jpg?v=1';
 
 
-  // PUNCH EFFECT: fist lunges at the viewer when the cursor is placed on it.
-  var punchT = 0;        // 0 = rest, 1 = full punch
-  var punching = false;
+  // PUNCH EFFECT: the fist travels across the screen toward the cursor,
+  // strikes, shakes on impact, then retracts — a real punching motion.
+  var restRect = null;
+  var punchAnim = null;
   var lastPunch = 0;
-  function triggerPunch() {
+  function triggerPunch(mx, my) {
     var now = performance.now();
-    if (punching || now - lastPunch < 900) return;
-    punching = true;
+    if (punchAnim || !restRect || now - lastPunch < 1100) return;
     lastPunch = now;
+    var fx = restRect.x + restRect.w / 2;
+    var fy = restRect.y + restRect.h / 2;
+    punchAnim = {
+      start: now, dur: 780,
+      fx: fx, fy: fy,
+      tx: fx + (mx - fx) * 0.55,   // punch 55% of the way to the cursor
+      ty: fy + (my - fy) * 0.55
+    };
+    requestAnimationFrame(punchFrame);
   }
-  // punch timeline: fast out (140ms), elastic back (650ms)
-  function punchScale(t) {
-    if (t < 0.18) return 1 + (t / 0.18) * 0.45;                    // lunge out
-    var k = (t - 0.18) / 0.82;                                     // spring back
-    return 1 + 0.45 * Math.cos(k * Math.PI * 2.5) * (1 - k) * Math.exp(-2 * k);
-  }
-  var punchStart = 0;
-  function tickPunch(now) {
-    if (punching) {
-      var t = (now - punchStart) / 790;
-      if (t >= 1) { punching = false; punchT = 0; }
-      else punchT = punchScale(t);
-      layout();
+  function punchFrame(now) {
+    if (!punchAnim) return;
+    var a = punchAnim;
+    var t = (now - a.start) / a.dur;
+    var W = stage.clientWidth, H = stage.clientHeight;
+    if (t >= 1) {
+      punchAnim = null;
+      engine.resize(W, H, restRect);
+      return;
     }
-    requestAnimationFrame(tickPunch);
+    var cx, cy, s;
+    if (t < 0.22) {
+      // STRIKE: fist flies toward the cursor, growing as it nears
+      var k = t / 0.22, e = 1 - Math.pow(1 - k, 3);
+      cx = a.fx + (a.tx - a.fx) * e;
+      cy = a.fy + (a.ty - a.fy) * e;
+      s = 1 + 0.55 * e;
+    } else if (t < 0.34) {
+      // IMPACT: shake on contact
+      var k2 = (t - 0.22) / 0.12;
+      cx = a.tx + Math.sin(k2 * Math.PI * 3) * 9 * (1 - k2);
+      cy = a.ty + Math.cos(k2 * Math.PI * 3) * 9 * (1 - k2);
+      s = 1.55;
+    } else {
+      // RETRACT: ease back to rest
+      var k3 = (t - 0.34) / 0.66, e3 = 1 - Math.pow(1 - k3, 2);
+      cx = a.tx + (a.fx - a.tx) * e3;
+      cy = a.ty + (a.fy - a.ty) * e3;
+      s = 1.55 - 0.55 * e3;
+    }
+    var w = restRect.w * s, h = restRect.h * s;
+    engine.resize(W, H, { x: cx - w / 2, y: cy - h / 2, w: w, h: h });
+    requestAnimationFrame(punchFrame);
   }
 
   function layout() {
@@ -87,9 +114,8 @@
     if (rw / aspect > maxH) rw = maxH * aspect;
     var rh = rw / aspect;
     var cx = w * 0.5, cy = (bandTop + bandBottom) / 2;
-    var s = punching ? punchT : 1;
-    var pw2 = rw * s, ph2 = rh * s;
-    engine.resize(w, h, { x: cx - pw2 / 2, y: cy - ph2 / 2, w: pw2, h: ph2 });
+    restRect = { x: cx - rw / 2, y: cy - rh / 2, w: rw, h: rh };
+    if (!punchAnim) engine.resize(w, h, restRect);
     var f = document.getElementById('pv-fallback');
     f.style.left = (cx - rw / 2) + 'px';
     f.style.top = (cy - rh / 2) + 'px';
@@ -113,13 +139,10 @@
       // cursor placed on the fist -> punch
       var dx = (mx - r.width / 2) / (r.width / 2);
       var dy = (my - r.height / 2) / (r.height / 2);
-      if (dx * dx + dy * dy < 0.55) {
-        if (!punching) punchStart = performance.now();
-        triggerPunch();
-      }
+      if (dx * dx + dy * dy < 0.55) triggerPunch(mx, my);
     }, { passive: true });
   });
-  requestAnimationFrame(tickPunch);
+
   stage.addEventListener('pointerup', function (e) {
     var r = canvas.getBoundingClientRect();
     engine.pointer('up', e.clientX - r.left, e.clientY - r.top, e.pointerType === 'touch');
