@@ -18,3 +18,7 @@ Rule: nothing here goes live without Dinesh's word.
 ## 2026-11-03 — venom direction (side chat)
 - He dropped particles ("Not particle any more") and sent his own venom portrait (736x1300) as the new source image: experiments/venom.jpg.
 - Old hand pose-morph gesture removed (incompatible with a single portrait). Effect now = liquid distortion follows the cursor over the Venom image. New cursor effect spec still open — awaiting his word.
+
+## 2026-11-03 — symbiote engulf (from his video)
+- Reference: "Venom: The Last Dance - VENOM HORSE! Scene" (sdwApAs67bg) — black liquid symbiote erupts and spreads over the horse like spilled ink, spikes extrude, white veins appear.
+- Built: NO particles, NO WebGL. Plain horse.jpg + 2D canvas goo: jittered seed grid clipped to a real horse silhouette mask (horse-mask.png, PIL flood/threshold), wavefront spreads from the cursor contact point (~2.8s), glossy black blobs + spikes at the front + white veins + gloss sweep; recedes on cursor leave (~1.8s). Touch: tap toggles.
