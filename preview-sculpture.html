@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sculpture Preview — Portrait Particles</title>
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #f4f1ea; }
+  #stage { position: fixed; inset: 0; }
+  #stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hint {
+    position: absolute; left: 50%; bottom: 34px; transform: translateX(-50%);
+    font: 13px/1.5 -apple-system, 'Segoe UI', sans-serif; color: #555;
+    display: flex; align-items: center; gap: 8px; pointer-events: none;
+    white-space: nowrap;
+  }
+  .hint .dot { width: 8px; height: 8px; border-radius: 50%; background: #111; animation: pulse 1.6s infinite; }
+  @keyframes pulse { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
+  .fallback {
+    position: absolute; object-fit: contain; display: none; pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="pv-canvas"></canvas>
+  <img class="fallback" id="pv-fallback" alt="">
+  <div class="hint"><span class="dot"></span>Move across the form</div>
+</div>
+<script src="assets/js/liquid-engine.js?v=1"></script>
+<script>
+(function () {
+  'use strict';
+  var stage = document.getElementById('stage');
+  var canvas = document.getElementById('pv-canvas');
+  if (typeof LiquidEngine === 'undefined') return;
+
+  var engine = new LiquidEngine(canvas, {
+    interactive: true, strength: 1, radius: 220, density: 1, dotSize: 1,
+    spread: 1, turbulence: 1, returnSpeed: 1, streaks: true, restStyle: 'image',
+    ambient: false, ambientIntensity: 1, speed: 1, intro: false, reducedMotion: false,
+    bg: [0.957, 0.945, 0.918], imgBg: null, liquid: 1
+  }, function () {
+    var f = document.getElementById('pv-fallback');
+    f.src = 'assets/images/sculpture/portrait.jpg?v=1';
+    f.style.display = 'block';
+  });
+
+  var aspect = 378 / 437;
+  var img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.src = 'assets/images/sculpture/portrait.jpg?v=1';
+
+  function layout() {
+    var w = stage.clientWidth, h = stage.clientHeight;
+    var bandTop = h * 0.05, bandBottom = h * 0.88;
+    var bandH = bandBottom - bandTop;
+    var rw = w * 1.02, maxH = bandH * 1.1;
+    if (rw / aspect > maxH) rw = maxH * aspect;
+    var rh = rw / aspect;
+    var cx = w * 0.5, cy = (bandTop + bandBottom) / 2;
+    engine.resize(w, h, { x: cx - rw / 2, y: cy - rh / 2, w: rw, h: rh });
+    var f = document.getElementById('pv-fallback');
+    f.style.left = (cx - rw / 2) + 'px';
+    f.style.top = (cy - rh / 2) + 'px';
+    f.style.width = rw + 'px';
+    f.style.height = rh + 'px';
+  }
+
+  img.onload = function () {
+    try {
+      aspect = img.naturalWidth / img.naturalHeight || aspect;
+      engine.setImage(img);
+      layout();
+    } catch (e) { /* fallback shows */ }
+  };
+
+  ['pointermove', 'pointerdown'].forEach(function (ev) {
+    stage.addEventListener(ev, function (e) {
+      var r = canvas.getBoundingClientRect();
+      engine.pointer(ev === 'pointermove' ? 'move' : 'down', e.clientX - r.left, e.clientY - r.top, e.pointerType === 'touch');
+    }, { passive: true });
+  });
+  stage.addEventListener('pointerup', function (e) {
+    var r = canvas.getBoundingClientRect();
+    engine.pointer('up', e.clientX - r.left, e.clientY - r.top, e.pointerType === 'touch');
+  });
+  stage.addEventListener('pointerleave', function (e) {
+    var r = canvas.getBoundingClientRect();
+    engine.pointer('leave', e.clientX - r.left, e.clientY - r.top, false);
+  });
+
+  new ResizeObserver(layout).observe(stage);
+  window.addEventListener('resize', layout);
+  layout();
+})();
+</script>
+</body>
+</html>
