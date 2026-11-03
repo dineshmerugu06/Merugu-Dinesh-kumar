@@ -42,14 +42,14 @@
     bg: [0.957, 0.945, 0.918], imgBg: null, liquid: 1
   }, function () {
     var f = document.getElementById('pv-fallback');
-    f.src = 'fist.jpg?v=1';
+    f.src = 'hand-full.jpg?v=1';
     f.style.display = 'block';
   });
 
-  var aspect = 1;
+  var aspect = 1920 / 1280;
   var img = new Image();
   img.crossOrigin = 'anonymous';
-  img.src = 'fist.jpg?v=1';
+  img.src = 'hand-full.jpg?v=1';
 
 
   // PUNCH EFFECT: the fist travels across the screen toward the cursor,
@@ -64,7 +64,7 @@
     var fx = restRect.x + restRect.w / 2;
     var fy = restRect.y + restRect.h / 2;
     punchAnim = {
-      start: now, dur: 780,
+      start: now, dur: 900,
       fx: fx, fy: fy,
       tx: fx + (mx - fx) * 0.55,   // punch 55% of the way to the cursor
       ty: fy + (my - fy) * 0.55
@@ -82,24 +82,33 @@
       return;
     }
     var cx, cy, s;
-    if (t < 0.22) {
-      // STRIKE: fist flies toward the cursor, growing as it nears
-      var k = t / 0.22, e = 1 - Math.pow(1 - k, 3);
-      cx = a.fx + (a.tx - a.fx) * e;
-      cy = a.fy + (a.ty - a.fy) * e;
-      s = 1 + 0.55 * e;
+    // wind-up anchor: pull back away from the target before striking
+    var wx = a.fx - (a.tx - a.fx) * 0.35;
+    var wy = a.fy - (a.ty - a.fy) * 0.35;
+    if (t < 0.16) {
+      // WIND-UP: hand draws back, coiling
+      var k = t / 0.16, e = k * k;
+      cx = a.fx + (wx - a.fx) * e;
+      cy = a.fy + (wy - a.fy) * e;
+      s = 1 - 0.12 * e;
     } else if (t < 0.34) {
+      // STRIKE: explodes from wind-up through the target
+      var k2 = (t - 0.16) / 0.18, e2 = 1 - Math.pow(1 - k2, 3);
+      cx = wx + (a.tx - wx) * e2;
+      cy = wy + (a.ty - wy) * e2;
+      s = 0.88 + 0.67 * e2;
+    } else if (t < 0.44) {
       // IMPACT: shake on contact
-      var k2 = (t - 0.22) / 0.12;
-      cx = a.tx + Math.sin(k2 * Math.PI * 3) * 9 * (1 - k2);
-      cy = a.ty + Math.cos(k2 * Math.PI * 3) * 9 * (1 - k2);
+      var k3 = (t - 0.34) / 0.10;
+      cx = a.tx + Math.sin(k3 * Math.PI * 3) * 9 * (1 - k3);
+      cy = a.ty + Math.cos(k3 * Math.PI * 3) * 9 * (1 - k3);
       s = 1.55;
     } else {
       // RETRACT: ease back to rest
-      var k3 = (t - 0.34) / 0.66, e3 = 1 - Math.pow(1 - k3, 2);
-      cx = a.tx + (a.fx - a.tx) * e3;
-      cy = a.ty + (a.fy - a.ty) * e3;
-      s = 1.55 - 0.55 * e3;
+      var k4 = (t - 0.44) / 0.56, e4 = 1 - Math.pow(1 - k4, 2);
+      cx = a.tx + (a.fx - a.tx) * e4;
+      cy = a.ty + (a.fy - a.ty) * e4;
+      s = 1.55 - 0.55 * e4;
     }
     var w = restRect.w * s, h = restRect.h * s;
     engine.resize(W, H, { x: cx - w / 2, y: cy - h / 2, w: w, h: h });
