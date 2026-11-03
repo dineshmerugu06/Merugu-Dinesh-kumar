@@ -1544,11 +1544,15 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
 .r-img-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
 .r-img-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
 .r-img-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+.r-img-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+.r-img-6 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
 /* Stack positions: 0=front, 1,2,3 behind */
 .r-card[data-pos="0"] { transform: translate(0, 0) rotate(0deg) scale(1); z-index: 4; opacity: 1; }
 .r-card[data-pos="1"] { transform: translate(-28px, -18px) rotate(-4deg) scale(0.96); z-index: 3; opacity: 0.85; }
 .r-card[data-pos="2"] { transform: translate(24px, -32px) rotate(3deg) scale(0.92); z-index: 2; opacity: 0.7; }
 .r-card[data-pos="3"] { transform: translate(-12px, -48px) rotate(-2deg) scale(0.88); z-index: 1; opacity: 0.55; }
+.r-card[data-pos="4"] { transform: translate(16px, -62px) rotate(2deg) scale(0.84); z-index: 0; opacity: 0.4; }
+.r-card[data-pos="5"] { transform: translate(-8px, -74px) rotate(-1deg) scale(0.8); z-index: -1; opacity: 0.28; }
 
 .ripple-text {
   text-align: left;

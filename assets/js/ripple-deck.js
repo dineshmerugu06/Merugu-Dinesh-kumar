@@ -3,10 +3,12 @@
   'use strict';
 
   var ITEMS = [
-    { name: 'Portfolio', role: 'Web Design', desc: 'Stunning portfolio websites that showcase your work and land clients. Built with modern tech, designed to impress.' },
-    { name: 'Business', role: 'Business Sites', desc: 'Professional business websites that turn visitors into customers. Fast, trustworthy, built to convert.' },
-    { name: 'Templates', role: 'Ready Templates', desc: 'Premium templates, ready to customize and launch fast. Clean code, modern design, yours in minutes.' },
-    { name: 'Frontend', role: 'Frontend Dev', desc: 'Clean, fast frontend code built with modern tech. React, animations, and interfaces that feel alive.' }
+    { name: 'Website Development', role: '01 — Websites', desc: 'Creating modern, responsive and functional websites tailored to business requirements.' },
+    { name: 'Portfolio & Landing Pages', role: '02 — Portfolios', desc: 'Designing visually engaging digital experiences that showcase personal brands, products and services.' },
+    { name: 'Dashboards & Web Applications', role: '03 — Web Apps', desc: 'Developing interactive web applications and data-driven interfaces that simplify business operations.' },
+    { name: 'Digital Problem Solving', role: '04 — Consulting', desc: 'Understanding real-world challenges and transforming ideas into practical digital solutions.' },
+    { name: 'Website Improvements', role: '05 — Redesign', desc: 'Improving existing websites through better design, usability, functionality and user experience.' },
+    { name: 'Ready-made Templates & UI Kits', role: '06 — Templates', desc: 'Offering professionally designed, customizable digital products for individuals, developers and businesses.' }
   ];
 
   function init() {
@@ -20,7 +22,7 @@
     var nextBtn = document.getElementById('rippleNext');
     if (!cards.length) return;
 
-    var order = [0, 1, 2, 3]; // card indices front to back
+    var order = [0, 1, 2, 3, 4, 5]; // card indices front to back
 
     function render() {
       cards.forEach(function (card) {
