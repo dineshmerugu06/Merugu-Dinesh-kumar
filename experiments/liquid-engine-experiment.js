@@ -94,6 +94,8 @@ var SIM_FS = ['#version 300 es',
 'uniform vec2 uPunchOrigin;',
 'uniform vec2 uPunchDir;',
 'uniform float uPunchT;',
+'uniform sampler2D uHomeB;',
+'uniform float uMorph;',
 NOISE,
 'vec2 curl(vec2 p){',
 '  const float e = 0.35;',
@@ -103,7 +105,9 @@ NOISE,
 '}',
 'void main(){',
 '  ivec2 ij = ivec2(gl_FragCoord.xy);',
-'  vec4 hm = texelFetch(uHome, ij, 0);',
+'  vec4 hmA = texelFetch(uHome, ij, 0);',
+'  vec4 hmB = texelFetch(uHomeB, ij, 0);',
+'  vec4 hm = mix(hmA, hmB, uMorph);',
 '  if(hm.w <= 0.0){ o = vec4(0.0); return; }',
 '  vec4 st = texelFetch(uState, ij, 0);',
 '  vec2 off = st.xy;',
@@ -155,6 +159,9 @@ var PART_VS = ['#version 300 es',
 'uniform sampler2D uHome;',
 'uniform sampler2D uCol;',
 'uniform sampler2D uFlow;',
+'uniform sampler2D uHomeB;',
+'uniform sampler2D uColB;',
+'uniform float uMorph;',
 'uniform int uTexW;',
 'uniform vec4 uRect;',
 'uniform vec2 uRes;',
@@ -178,9 +185,13 @@ ENERGY,
 'void main(){',
 '  int id = gl_InstanceID;',
 '  ivec2 ij = ivec2(id % uTexW, id / uTexW);',
-'  vec4 hm = texelFetch(uHome, ij, 0);',
+'  vec4 hmA = texelFetch(uHome, ij, 0);',
+'  vec4 hmB = texelFetch(uHomeB, ij, 0);',
+'  vec4 hm = mix(hmA, hmB, uMorph);',
 '  vec4 st = texelFetch(uState, ij, 0);',
-'  vec4 cl = texelFetch(uCol, ij, 0);',
+'  vec4 clA = texelFetch(uCol, ij, 0);',
+'  vec4 clB = texelFetch(uColB, ij, 0);',
+'  vec4 cl = mix(clA, clB, uMorph);',
 '  float wakeE = texture(uFlow, hm.xy).b;',
 '  float E = energyAt(hm.xy*uRect.zw, uMouse, uRadius, uPresence, wakeE);',
 '  float lift = smoothstep(0.35, 2.5, length(st.xy));',
@@ -320,6 +331,7 @@ function LiquidEngine(canvas, opts, onFail) {
   this.flowTex = []; this.flowFb = [];
   this.flowW = 256; this.flowH = 104; this.flowIdx = 0; this.flowDirty = false;
   this.homeTex = null; this.colTex = null;
+  this.poseTex = []; this.morph = 0; this.poseA = 0; this.poseB = 0;
   this.stateTex = []; this.stateFb = []; this.stateIdx = 0;
   this.texH = 1; this.n = 0; this.gridW = 1;
   this.stateDirty = false; this.alphaMode = false;
@@ -449,10 +461,11 @@ LiquidEngine.prototype.setImage = function (img) {
   this.wake();
 };
 
-LiquidEngine.prototype.buildParticles = function (img) {
-  var gl = this.gl;
-  var baseGrid = this.lowPower ? 640 : 1000;
-  var gw = Math.round(baseGrid * Math.sqrt(clamp(this.opts.density, 0.15, 2)));
+LiquidEngine.prototype.samplePose = function (img) {
+  // Fixed-grid sampling: EVERY cell becomes a particle; background cells get
+  // w=0 (shaders cull them). Identical grid/order across poses => morphable.
+  var target = 150000;
+  var gw = Math.round(Math.sqrt(target * this.aspect));
   var gh = Math.max(1, Math.round(gw / this.aspect));
   this.gridW = gw;
   var data;
@@ -464,56 +477,67 @@ LiquidEngine.prototype.buildParticles = function (img) {
     ctx.drawImage(img, 0, 0, gw, gh);
     data = ctx.getImageData(0, 0, gw, gh).data;
   } catch (e) { throw new Error('Image is not CORS-readable'); }
-  var transparent = 0, i;
-  for (i = 3; i < data.length; i += 28) if (data[i] < 250) transparent++;
-  this.alphaMode = transparent > data.length / 28 / 20;
-  if (this.opts.imgBg) this.imgBg = this.opts.imgBg;
-  else if (!this.alphaMode) {
-    var r = 0, g = 0, b = 0, n = 0;
-    var pw = Math.max(2, Math.round(gw * 0.012));
-    var corners = [[0, 0], [gw - pw, 0], [0, gh - pw], [gw - pw, gh - pw]];
-    for (var ci = 0; ci < 4; ci++) {
-      for (var y = corners[ci][1]; y < corners[ci][1] + pw; y++)
-        for (var x = corners[ci][0]; x < corners[ci][0] + pw; x++) {
-          var ii = (y * gw + x) * 4;
-          r += data[ii]; g += data[ii + 1]; b += data[ii + 2]; n++;
-        }
-    }
-    this.imgBg = [r / n / 255, g / n / 255, b / n / 255];
+  var r = 0, g = 0, b = 0, n = 0, i;
+  var pw = Math.max(2, Math.round(gw * 0.012));
+  var corners = [[0, 0], [gw - pw, 0], [0, gh - pw], [gw - pw, gh - pw]];
+  for (var ci = 0; ci < 4; ci++) {
+    for (var y = corners[ci][1]; y < corners[ci][1] + pw; y++)
+      for (var x = corners[ci][0]; x < corners[ci][0] + pw; x++) {
+        var ii = (y * gw + x) * 4;
+        r += data[ii]; g += data[ii + 1]; b += data[ii + 2]; n++;
+      }
   }
-  var home = [], col = [];
+  var bg = [r / n / 255, g / n / 255, b / n / 255];
+  var nn = gw * gh;
+  var home = new Float32Array(nn * 4);
+  var col = new Uint8Array(nn * 4);
+  var k = 0;
   for (var yy = 0; yy < gh; yy++) {
     for (var xx = 0; xx < gw; xx++) {
       var idx = (yy * gw + xx) * 4;
       var rr = data[idx] / 255, gg = data[idx + 1] / 255, bb = data[idx + 2] / 255;
-      if (this.alphaMode) {
-        var a = data[idx + 3] / 255;
-        if (a < 0.12) continue;
-        if (a < 0.5 && Math.random() > a * 2) continue;
-      } else {
-        var dev = Math.sqrt((rr - this.imgBg[0]) * (rr - this.imgBg[0]) + (gg - this.imgBg[1]) * (gg - this.imgBg[1]) + (bb - this.imgBg[2]) * (bb - this.imgBg[2]));
-        if (dev < 0.03) continue;
-        if (dev < 0.07 && Math.random() > (dev - 0.03) / 0.04) continue;
-      }
+      var dr = rr - bg[0], dg = gg - bg[1], db = bb - bg[2];
+      var dev = Math.sqrt(dr * dr + dg * dg + db * db);
+      var wgt = dev < 0.035 ? 0 : (0.85 + Math.random() * 0.3);
       var jx = (Math.random() - 0.5) * 0.6, jy = (Math.random() - 0.5) * 0.6;
-      home.push((xx + 0.5 + jx) / gw, (yy + 0.5 + jy) / gh, Math.random(), 0.85 + Math.random() * 0.3);
-      col.push(data[idx], data[idx + 1], data[idx + 2], 255);
+      home[k] = (xx + 0.5 + jx) / gw;
+      home[k + 1] = (yy + 0.5 + jy) / gh;
+      home[k + 2] = Math.random();
+      home[k + 3] = wgt;
+      col[k] = data[idx]; col[k + 1] = data[idx + 1]; col[k + 2] = data[idx + 2]; col[k + 3] = 255;
+      k += 4;
     }
   }
-  var nn = home.length / 4;
-  this.n = nn;
-  this.texH = Math.max(1, Math.ceil(nn / TEX_W));
+  return { home: home, col: col };
+};
+
+LiquidEngine.prototype.uploadPose = function (sample) {
+  var gl = this.gl;
   var total = TEX_W * this.texH;
   var homeArr = new Float32Array(total * 4);
-  for (i = 0; i < home.length; i++) homeArr[i] = home[i];
+  homeArr.set(sample.home.subarray(0, Math.min(sample.home.length, homeArr.length)));
   var colArr = new Uint8Array(total * 4);
-  for (i = 0; i < col.length; i++) colArr[i] = col[i];
+  colArr.set(sample.col.subarray(0, Math.min(sample.col.length, colArr.length)));
+  return {
+    home: this.makeTex(gl.RGBA32F, TEX_W, this.texH, gl.RGBA, gl.FLOAT, homeArr, gl.NEAREST),
+    col: this.makeTex(gl.RGBA8, TEX_W, this.texH, gl.RGBA, gl.UNSIGNED_BYTE, colArr, gl.NEAREST)
+  };
+};
+
+LiquidEngine.prototype.buildParticles = function (img) {
+  var gl = this.gl, i;
+  var sample = this.samplePose(img);
+  var nn = sample.home.length / 4;
+  this.n = nn;
+  this.texH = Math.max(1, Math.ceil(nn / TEX_W));
   var all = [this.homeTex, this.colTex].concat(this.stateTex);
   for (i = 0; i < all.length; i++) if (all[i]) gl.deleteTexture(all[i]);
   for (i = 0; i < this.stateFb.length; i++) gl.deleteFramebuffer(this.stateFb[i]);
   this.stateTex = []; this.stateFb = [];
-  this.homeTex = this.makeTex(gl.RGBA32F, TEX_W, this.texH, gl.RGBA, gl.FLOAT, homeArr, gl.NEAREST);
-  this.colTex = this.makeTex(gl.RGBA8, TEX_W, this.texH, gl.RGBA, gl.UNSIGNED_BYTE, colArr, gl.NEAREST);
+  var up = this.uploadPose(sample);
+  this.homeTex = up.home; this.colTex = up.col;
+  this.poseTex = [{ home: this.homeTex, col: this.colTex }];
+  this.morph = 0; this.poseA = 0; this.poseB = 0;
   for (i = 0; i < 2; i++) {
     var t = this.makeTex(this.stateFormat.internal, TEX_W, this.texH, gl.RGBA, this.stateFormat.type, null, gl.NEAREST);
     var fb = gl.createFramebuffer();
@@ -523,8 +547,23 @@ LiquidEngine.prototype.buildParticles = function (img) {
     this.stateTex.push(t); this.stateFb.push(fb);
   }
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-  this.homeData = homeArr;
+  this.homeData = sample.home;
   this.clearState();
+};
+
+LiquidEngine.prototype.setPoses = function (imgs) {
+  for (var i = 1; i < imgs.length; i++) {
+    var up = this.uploadPose(this.samplePose(imgs[i]));
+    this.poseTex.push({ home: up.home, col: up.col });
+  }
+  this.morph = 0; this.poseA = 0; this.poseB = 0;
+  this.wake();
+};
+
+LiquidEngine.prototype.setMorphPair = function (a, b, t) {
+  if (a >= this.poseTex.length || b >= this.poseTex.length) return;
+  this.poseA = a; this.poseB = b; this.morph = t;
+  this.wake();
 };
 
 LiquidEngine.prototype.startIntro = function () {
@@ -717,11 +756,15 @@ LiquidEngine.prototype.stepSim = function (dt) {
   gl.bindTexture(gl.TEXTURE_2D, this.stateTex[this.stateIdx]);
   gl.uniform1i(P.u.uState, 0);
   gl.activeTexture(gl.TEXTURE1);
-  gl.bindTexture(gl.TEXTURE_2D, this.homeTex);
+  gl.bindTexture(gl.TEXTURE_2D, this.poseTex[this.poseA].home);
   gl.uniform1i(P.u.uHome, 1);
   gl.activeTexture(gl.TEXTURE2);
   gl.bindTexture(gl.TEXTURE_2D, this.flowTex[this.flowIdx]);
   gl.uniform1i(P.u.uFlow, 2);
+  gl.activeTexture(gl.TEXTURE3);
+  gl.bindTexture(gl.TEXTURE_2D, this.poseTex[this.poseB].home);
+  gl.uniform1i(P.u.uHomeB, 3);
+  gl.uniform1f(P.u.uMorph, this.morph);
   gl.uniform2f(P.u.uSize, r.w, r.h);
   gl.uniform2f(P.u.uMouse, this.mouse.x - r.x, this.mouse.y - r.y);
   gl.uniform1f(P.u.uRadius, this.radiusPx());
@@ -791,14 +834,21 @@ LiquidEngine.prototype.draw = function () {
   gl.bindTexture(gl.TEXTURE_2D, this.stateTex[this.stateIdx]);
   gl.uniform1i(P.u.uState, 0);
   gl.activeTexture(gl.TEXTURE1);
-  gl.bindTexture(gl.TEXTURE_2D, this.homeTex);
+  gl.bindTexture(gl.TEXTURE_2D, this.poseTex[this.poseA].home);
   gl.uniform1i(P.u.uHome, 1);
   gl.activeTexture(gl.TEXTURE2);
-  gl.bindTexture(gl.TEXTURE_2D, this.colTex);
+  gl.bindTexture(gl.TEXTURE_2D, this.poseTex[this.poseA].col);
   gl.uniform1i(P.u.uCol, 2);
   gl.activeTexture(gl.TEXTURE3);
   gl.bindTexture(gl.TEXTURE_2D, this.flowTex[this.flowIdx]);
   gl.uniform1i(P.u.uFlow, 3);
+  gl.activeTexture(gl.TEXTURE4);
+  gl.bindTexture(gl.TEXTURE_2D, this.poseTex[this.poseB].home);
+  gl.uniform1i(P.u.uHomeB, 4);
+  gl.activeTexture(gl.TEXTURE5);
+  gl.bindTexture(gl.TEXTURE_2D, this.poseTex[this.poseB].col);
+  gl.uniform1i(P.u.uColB, 5);
+  gl.uniform1f(P.u.uMorph, this.morph);
   gl.uniform1i(P.u.uTexW, TEX_W);
   gl.uniform4f(P.u.uRect, r.x, r.y, r.w, r.h);
   gl.uniform2f(P.u.uRes, this.cssW, this.cssH);
