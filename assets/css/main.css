@@ -1488,18 +1488,6 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
   33% { transform: translate(40px, -30px) scale(1.15); }
   66% { transform: translate(-30px, 35px) scale(0.9); }
 }
-.ripple-gen-stage{position:absolute;inset:0;display:grid;place-items:center;align-content:center;
-  gap:1.8rem;z-index:2;padding-bottom:6vh}
-.ripple-gen-frame{position:relative;width:min(560px,74vw);aspect-ratio:16/10;overflow:hidden;
-  border-radius:10px;box-shadow:0 30px 80px rgba(20,10,40,.28);background:#111}
-.ripple-gen-frame img{width:100%;height:100%;object-fit:cover;display:block;
-  filter:blur(28px) saturate(.7);clip-path:inset(0 0 100% 0);transform:scale(1.05)}
-.ripple-gen-scan{position:absolute;left:0;right:0;top:0;height:3px;background:#c33d1e;
-  box-shadow:0 0 18px #c33d1e;opacity:0;z-index:2}
-.ripple-gen-magic{font-family:'Instrument Serif',serif;font-weight:400;
-  font-size:clamp(1.4rem,2.6vw,2.1rem);color:#2a2622;margin:0;text-align:center;padding:0 1rem}
-.ripple-gen-magic em{font-style:italic;color:#c33d1e}
-
 .ripple-gen-footer {
   position: absolute;
   bottom: 80px; left: 0; right: 0;

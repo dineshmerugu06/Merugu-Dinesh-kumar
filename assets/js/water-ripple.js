@@ -10,8 +10,6 @@
     var pctEl = document.getElementById('ripplePct');
     var etaEl = document.getElementById('rippleEta');
     var genText = document.getElementById('rippleGenText');
-    var genImg = document.getElementById('rippleGenImg');
-    var genScan = document.getElementById('rippleGenScan');
     var canvas = document.getElementById('rippleCanvas');
     if (!gen || !water || !canvas) return;
 
@@ -33,17 +31,6 @@
         if (progress < 30) genText.textContent = 'Dreaming it up.';
         else if (progress < 80) genText.textContent = 'Painting pixels.';
         else genText.textContent = 'Almost magic.';
-      }
-
-      // image materializes: top-to-bottom reveal + deblur
-      if (genImg) {
-        var k = progress / 100;
-        genImg.style.filter = 'blur(' + (28 * (1 - k)).toFixed(1) + 'px) saturate(' + (0.7 + 0.3 * k).toFixed(2) + ')';
-        genImg.style.clipPath = 'inset(0 0 ' + (100 - progress) + '% 0)';
-      }
-      if (genScan) {
-        genScan.style.top = progress + '%';
-        genScan.style.opacity = (progress > 2 && progress < 100) ? '1' : '0';
       }
 
       if (progress >= 100 && !phase1Done) {
