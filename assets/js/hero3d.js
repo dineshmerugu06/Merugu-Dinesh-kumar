@@ -93,20 +93,25 @@ function detectMode() {
   const r1 = secHero.getBoundingClientRect();
   const r2 = secTrans.getBoundingClientRect();
   const r3 = secJourney.getBoundingClientRect();
-  if (r1.bottom > vh * 0.55) return 'hero';
-  if (r2.top < vh * 0.5 && r2.bottom > vh * 0.5) return 'cursor';
-  if (r3.top < vh * 0.6 && r3.bottom > vh * 0.4) return 'trail';
+  if (r1.bottom > vh * 0.8) return 'hero';
+  if (r2.bottom > vh * 0.4 && r3.top > vh * 0.62) return 'cursor';
+  if (r3.top < vh * 0.62 && r3.bottom > vh * 0.4) return 'trail';
   if (r3.bottom <= vh * 0.4) return 'gone';
   return pilot.mode;
 }
 
 function enterPilot() {
   const r = canvas.getBoundingClientRect();
+  const w = Math.min(r.width || innerWidth * 0.5, innerWidth);
+  const h = Math.min(r.height || innerHeight * 0.5, innerHeight);
+  // clamp: never start off-screen (the old dead-zone bug put it under the viewport)
+  const L = Math.max(-w * 0.25, Math.min(r.left, innerWidth - w * 0.75));
+  const T = Math.max(-h * 0.25, Math.min(r.top, innerHeight - h * 0.75));
   canvas.style.position = 'fixed';
-  canvas.style.left = r.left + 'px';
-  canvas.style.top = r.top + 'px';
-  canvas.style.width = r.width + 'px';
-  canvas.style.height = r.height + 'px';
+  canvas.style.left = L + 'px';
+  canvas.style.top = T + 'px';
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
   canvas.style.zIndex = '40';
   canvas.style.pointerEvents = 'none';
   canvas.style.margin = '0';
@@ -125,34 +130,36 @@ function exitPilot() {
 }
 
 function pilotFrame(dt) {
-  const k = 1 - Math.pow(0.002, dt);
-  const tw = Math.min(innerWidth * 0.40, 520); // slightly bigger
+  const k = 1 - Math.pow(1e-9, dt); // tight: ~0.29/frame @60fps, exact cursor response
+  const tw = Math.min(innerWidth * 0.52, 680); // big, same presence every time
   const th = tw * 0.72;
   let tx, ty, targetOp = 1;
 
   if (pilot.mode === 'cursor') {
     tx = pilot.mx - tw / 2; ty = pilot.my - th / 2;
+    if (mixer && !pilot.roaring) mixer.timeScale = 0.5;
   } else if (pilot.mode === 'trail') {
     const jp = window.__journeyP || 0;
     if (!pilot.entered) {
       if (jp > 0.02) {
-        // cinematic entrance: start off-screen left, glide in
         pilot.entered = true;
         canvas.style.left = (-tw - 60) + 'px';
         canvas.style.top = (innerHeight / 2 - th / 2) + 'px';
         canvas.style.width = tw + 'px';
         canvas.style.height = th + 'px';
       } else {
-        canvas.style.opacity = '0'; // vanished until the character moves
+        canvas.style.opacity = '0';
         return;
       }
     }
     const jr = document.getElementById('jChar');
     if (jr) {
       const r = jr.getBoundingClientRect();
-      tx = r.left + r.width / 2 - tw / 2 - tw * 0.62; // behind the character
-      ty = r.top + r.height / 2 - th / 2 - th * 0.42; // slightly above
+      // exactly behind the character, close — no wandering
+      tx = r.left + r.width / 2 - tw / 2 - tw * 0.42;
+      ty = r.top + r.height / 2 - th / 2 - th * 0.2;
     } else { tx = innerWidth / 2 - tw / 2; ty = innerHeight / 2 - th / 2; }
+    if (mixer && !pilot.roaring) mixer.timeScale = 0.3; // calm: no extra actions while trailing
   } else { // gone
     tx = parseFloat(canvas.style.left) || 0;
     ty = parseFloat(canvas.style.top) || 0;
@@ -169,11 +176,11 @@ function pilotFrame(dt) {
   canvas.style.height = (chh + (th - chh) * k) + 'px';
   const curOp = parseFloat(canvas.style.opacity || '1');
   canvas.style.opacity = (curOp + (targetOp - curOp) * k).toFixed(3);
-  // calm pilot pose
-  group.rotation.y = Math.sin(t * 0.4) * 0.15;
+  // steady glide: no extra actions
+  group.rotation.y = Math.sin(t * 0.3) * 0.08;
   group.rotation.z = -0.1;
   group.scale.setScalar(1);
-  group.position.y = Math.sin(t * 0.9) * 0.3;
+  group.position.y = Math.sin(t * 0.7) * 0.18;
 }
 
 // roar: lunge at the blood text + shake + the model's own animation sped up. nothing extra.
