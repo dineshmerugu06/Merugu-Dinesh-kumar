@@ -80,7 +80,7 @@ const clock = new THREE.Clock();
 let t = 0;
 
 /* ---------- dragon pilot v2: hero -> cursor(S2, roars) -> vanish -> left-entrance trail(journey) -> gone ---------- */
-const pilot = { mode: 'hero', mx: innerWidth / 2, my: innerHeight / 2, roaring: false, entered: false };
+const pilot = { mode: 'hero', mx: innerWidth / 2, my: innerHeight / 2, roaring: false };
 window.addEventListener('pointermove', (e) => { pilot.mx = e.clientX; pilot.my = e.clientY; },
   { passive: true });
 
@@ -95,9 +95,7 @@ function detectMode() {
   const r3 = secJourney.getBoundingClientRect();
   if (r1.bottom > vh * 0.8) return 'hero';
   if (r2.bottom > vh * 0.4 && r3.top > vh * 0.62) return 'cursor';
-  if (r3.top < vh * 0.62 && r3.bottom > vh * 0.4) return 'trail';
-  if (r3.bottom <= vh * 0.4) return 'gone';
-  return pilot.mode;
+  return 'gone'; // no dragon in journey — fades out after section 2
 }
 
 function enterPilot() {
@@ -147,28 +145,6 @@ function pilotFrame(dt) {
     if (!pilot.roaring) group.scale.setScalar(1);
     group.position.set(0, 0, 0);
     return;
-  } else if (pilot.mode === 'trail') {
-    const jp = window.__journeyP || 0;
-    if (!pilot.entered) {
-      if (jp > 0.02) {
-        pilot.entered = true;
-        canvas.style.left = (-tw - 60) + 'px';
-        canvas.style.top = (innerHeight / 2 - th / 2) + 'px';
-        canvas.style.width = tw + 'px';
-        canvas.style.height = th + 'px';
-      } else {
-        canvas.style.opacity = '0';
-        return;
-      }
-    }
-    const jr = document.getElementById('jChar');
-    if (jr) {
-      const r = jr.getBoundingClientRect();
-      // exactly behind the character, close — no wandering
-      tx = r.left + r.width / 2 - tw / 2 - tw * 0.42;
-      ty = r.top + r.height / 2 - th / 2 - th * 0.2;
-    } else { tx = innerWidth / 2 - tw / 2; ty = innerHeight / 2 - th / 2; }
-    if (mixer && !pilot.roaring) mixer.timeScale = 0.3; // calm: no extra actions while trailing
   } else { // gone
     tx = parseFloat(canvas.style.left) || 0;
     ty = parseFloat(canvas.style.top) || 0;
@@ -215,7 +191,6 @@ window.__dragonRoar = function () {
     const prev = pilot.mode;
     if (prev === 'hero' && mode !== 'hero') enterPilot();
     else if (mode === 'hero' && prev !== 'hero') exitPilot();
-    if (mode === 'trail' && prev !== 'trail') { pilot.entered = false; }
     pilot.mode = mode;
   }
   if (pilotActive && pilot.mode !== 'hero') {
