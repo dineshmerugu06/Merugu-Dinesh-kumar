@@ -10,6 +10,8 @@
     var pctEl = document.getElementById('ripplePct');
     var etaEl = document.getElementById('rippleEta');
     var genText = document.getElementById('rippleGenText');
+    var genImg = document.getElementById('rippleGenImg');
+    var genScan = document.getElementById('rippleGenScan');
     var canvas = document.getElementById('rippleCanvas');
     if (!gen || !water || !canvas) return;
 
@@ -28,9 +30,20 @@
       if (etaEl) etaEl.textContent = remaining;
 
       if (genText) {
-        if (progress < 30) genText.textContent = 'Getting started.';
-        else if (progress < 80) genText.textContent = 'Creating image. May take a moment.';
-        else genText.textContent = 'Almost done.';
+        if (progress < 30) genText.textContent = 'Dreaming it up.';
+        else if (progress < 80) genText.textContent = 'Painting pixels.';
+        else genText.textContent = 'Almost magic.';
+      }
+
+      // image materializes: top-to-bottom reveal + deblur
+      if (genImg) {
+        var k = progress / 100;
+        genImg.style.filter = 'blur(' + (28 * (1 - k)).toFixed(1) + 'px) saturate(' + (0.7 + 0.3 * k).toFixed(2) + ')';
+        genImg.style.clipPath = 'inset(0 0 ' + (100 - progress) + '% 0)';
+      }
+      if (genScan) {
+        genScan.style.top = progress + '%';
+        genScan.style.opacity = (progress > 2 && progress < 100) ? '1' : '0';
       }
 
       if (progress >= 100 && !phase1Done) {
@@ -126,19 +139,20 @@
       drawWater();
     }
 
-    // Start animation immediately with a small delay
-    setTimeout(function() {
-      if (!phase1Done && progress === 0) {
-        requestAnimationFrame(phase1);
-      }
-    }, 500);
-    // Fallback: if still at 0 after 3s, force start
-    setTimeout(function() {
-      if (!phase1Done && progress === 0) {
-        progress = 1;
-        requestAnimationFrame(phase1);
-      }
-    }, 3000);
+    // Start only when the section scrolls into view
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting && !phase1Done && progress === 0) {
+            io.disconnect();
+            requestAnimationFrame(phase1);
+          }
+        });
+      }, { threshold: 0.25 });
+      io.observe(section);
+    } else {
+      requestAnimationFrame(phase1);
+    }
   }
 
   if (document.readyState === 'loading') {
