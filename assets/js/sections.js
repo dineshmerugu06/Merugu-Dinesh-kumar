@@ -25,13 +25,20 @@
     while (l.firstChild) inner.appendChild(l.firstChild);
     l.appendChild(inner);
   });
-  gsap.set('.hud-top > *, .w-ver, .w-head .l > span, .w-card, .w-giant, .w-sub', { opacity: 0, y: 26 });
+  gsap.set('.hud-top > *, .w-ver, .w-head .l > span, .w-card, .w-sub', { opacity: 0, y: 26 });
+  // giant name: letter-by-letter entrance
+  const giantSpan = document.querySelector('.w-giant span');
+  let giantChars = [];
+  if (giantSpan) {
+    giantChars = splitChars(giantSpan);
+    gsap.set(giantChars, { opacity: 0, y: 70, filter: 'blur(16px)' });
+  }
   const intro = gsap.timeline({ delay: 0.35 });
   intro.to('.hud-top > *', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08 }, 0)
        .to('.w-ver', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.1)
        .to('.w-head .l > span', { opacity: 1, y: 0, duration: 1.1, ease: 'power4.out', stagger: 0.12 }, 0.15)
        .to('.w-card', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, 0.45)
-       .to('.w-giant', { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out' }, 0.35)
+       .to(giantChars, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.15, ease: 'power4.out', stagger: 0.045 }, 0.35)
        .to('.w-sub', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1 }, 0.6);
   // headline parallax drift on scroll away
   gsap.to('.w-head', {

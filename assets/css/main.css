@@ -120,8 +120,12 @@ a{color:inherit}
   font-family:var(--st-display);
   font-size:clamp(3rem,14.5vw,14.5vw);font-weight:400;letter-spacing:-.02em;line-height:.95;white-space:nowrap;
   color:transparent;
-  background:linear-gradient(180deg,#f2ede6 20%,#8f8a93 90%);
-  -webkit-background-clip:text;background-clip:text}
+  background:linear-gradient(115deg,#8f8a93 15%,#f2ede6 36%,#ffffff 50%,#f2ede6 64%,#8f8a93 85%);
+  background-size:230% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  animation:giantSheen 7s ease-in-out infinite}
+.w-giant .ch{display:inline-block;will-change:opacity,transform,filter}
+@keyframes giantSheen{0%,100%{background-position:115% 0}50%{background-position:-15% 0}}
 .w-sub{position:absolute;bottom:calc(var(--gap)*.9);z-index:4;margin:0;
   font-family:var(--st-mono);font-size:.72rem;letter-spacing:.22em;color:var(--st-grey)}
 .w-sub.s1{left:var(--gap)}
