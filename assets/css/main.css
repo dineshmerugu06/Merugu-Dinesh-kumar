@@ -199,25 +199,30 @@ a{color:inherit}
   opacity:0}
 
 /* ══════════ 5–9 · TECHNIQUES / MASONRY / FOR / CLARITY / FOOTER ══════════ */
-.w-tech,.w-masonry,.w-for,.w-clarity{padding:16vh 0;position:relative}
-.w-tech{background:#101214;color:#e6dfe4}
-.w-masonry{background:#e6dfe4;color:#101214}
-.w-for{background:#101214;color:#e6dfe4}
-.w-clarity{background:#f4f1ea;color:#101214}
-.t-head{font-family:var(--st-display);font-weight:400;letter-spacing:-.01em;
-  font-size:clamp(2.4rem,5.2vw,4.6rem);line-height:1.05;margin:.8em 0 1.6em}
-.t-head em{font-style:normal;color:var(--st-red)}
-.t-head.dark em{color:#c33d1e}
-
-/* techniques cards */
-.t-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(1rem,2vw,1.8rem)}
-.t-card{border-top:2px solid #2c2c30;padding-top:1.4rem;transition:border-color .4s}
-.t-card:hover{border-color:var(--st-red)}
-.t-card img{width:48px;height:48px;margin-bottom:1.1rem;filter:invert(.9)}
-.t-card h3{font-family:var(--st-display);font-weight:400;font-size:1.35rem;letter-spacing:-.01em;margin:0 0 .5rem}
-.t-tag{font-family:var(--st-mono);font-size:.78rem;letter-spacing:.04em;color:#fff;margin:0 0 .7rem}
-.t-desc{font-size:.92rem;line-height:1.65;color:#a399a8;margin:0}
-
+.w-masonry,.w-for,.w-clarity{padding:16vh 0;position:relative}
+.w-summary{padding:16vh 0;position:relative;background:#0e0d0c;color:#f2ece2;overflow:hidden}
+.sum-glow{position:absolute;top:-12%;left:50%;transform:translateX(-50%);width:min(940px,92vw);height:72%;
+  background:radial-gradient(ellipse at center,rgba(217,56,30,.17),transparent 65%);pointer-events:none;will-change:transform}
+.sum-head{margin:.7em 0 1em;position:relative;z-index:1}
+.sum-script{display:block;font-family:'Pinyon Script',cursive;font-weight:400;
+  font-size:clamp(3.6rem,9.5vw,8rem);line-height:1.15;color:#f5efe4}
+.sum-line{display:block;font-family:var(--st-display);font-weight:600;letter-spacing:-.02em;
+  font-size:clamp(1.9rem,4.4vw,3.7rem);line-height:1.14;margin-top:.3em;max-width:22ch}
+.sum-line em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#e0492b}
+.sum-line .w{display:inline-block}
+.sum-body{position:relative;z-index:1;max-width:68ch;font-size:clamp(1rem,1.35vw,1.18rem);
+  line-height:1.78;color:#b9b0a4;margin:0 0 9vh}
+.sum-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);
+  gap:clamp(1.5rem,3vw,3rem)}
+.sum-stat{border-top:1px solid #3a332c;padding-top:1.6rem;text-decoration:none;color:inherit;display:block}
+.sum-num{font-family:var(--st-display);font-weight:600;font-size:clamp(2.1rem,4.2vw,3.4rem);
+  letter-spacing:-.02em;color:#f5efe4;margin-bottom:.7rem}
+.sum-cap{font-size:.95rem;line-height:1.65;color:#8d8478;margin:0}
+.sum-cta .sum-link{color:#e0492b;transition:color .3s}
+.sum-cta:hover .sum-link{color:#f5efe4}
+.sum-cta .arr{display:inline-block;transition:transform .3s}
+.sum-cta:hover .arr{transform:translateX(8px)}
+@media(max-width:760px){.sum-grid{grid-template-columns:1fr;gap:2.4rem}.sum-body{margin-bottom:6vh}}
 /* masonry — rebuilt 2026-11-04: interests pager (no cards) */
 .w-masonry{background:#f7f4ef;color:#101214;overflow:hidden}
 .interest-wrap{position:relative;z-index:2}
