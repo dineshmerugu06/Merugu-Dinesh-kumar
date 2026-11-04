@@ -58,16 +58,9 @@
 
   /* ---------- hero intro lives in sections.js (welcome) ---------- */
 
-  /* ---------- 3 · JOURNEY: pinned chapter ---------- */
-  const LINES = [
-    'BSc Computer Science — Prathibha Degree College. 8.7 CGPA.',
-    'MCA — Loyola Academy. 9.48 CGPA. Class of 2026.',
-    'Two degrees. One obsession: building things that work.'
-  ];
-  const lineEl = document.getElementById('dlg-line');
-  const dlgBar = document.getElementById('dlg-bar');
+  /* ---------- 3 · JOURNEY: paper-character story ---------- */
   const scramEl = document.getElementById('scramble');
-  const SCRAM = '█▓▒░<>/\\|#*';
+  const SCRAM = '█▓▒░<>/\\\\|#*';
   let scramTimer = null;
   function scrambleTo(text) {
     if (!scramEl) return;
@@ -85,27 +78,33 @@
     }, 40);
   }
 
+  const jChar = document.getElementById('jChar');
+  const jStages = Array.prototype.slice.call(document.querySelectorAll('.j-stage'));
+  const STOPS = ['8%', '36%', '64%', '92%'];
+  function activateStage(i) {
+    jStages.forEach((st, k) => st.classList.toggle('is-active', k === i));
+  }
+  function walk(on) { if (jChar) jChar.classList.toggle('walking', !!on); }
+
   const jTl = gsap.timeline({
     scrollTrigger: {
-      trigger: '.s-journey', start: 'top top', end: '+=340%', scrub: 1, pin: true,
-      onUpdate: (self) => {
-        window.__storm = self.progress;
-        if (dlgBar) dlgBar.style.width = (self.progress * 100).toFixed(1) + '%';
-      }
+      trigger: '.s-journey', start: 'top top', end: '+=400%', scrub: 1, pin: true,
+      onUpdate: (self) => { window.__storm = self.progress; }
     }
   });
   jTl.call(() => scrambleTo('THE JOURNEY'), null, 0.05);
-  LINES.forEach((text, i) => {
-    const at = 0.6 + i * 1.5;
-    jTl.call(() => {
-      if (lineEl) {
-        gsap.fromTo(lineEl, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', overwrite: true });
-        lineEl.textContent = text;
-      }
-    }, null, at);
-    jTl.to({}, { duration: 1.4 });
-  });
-  jTl.to('.ch-outro', { opacity: 1, duration: 0.8, ease: 'none' }, '>-0.3');
+  jTl.call(() => { activateStage(0); }, null, 0.15);
+  // walk stage by stage: 0→1→2→3
+  var t = 0.7;
+  for (var si = 1; si < 4; si++) {
+    (function (n, at) {
+      jTl.call(() => walk(true), null, at);
+      jTl.to(jChar, { left: STOPS[n], duration: 0.9, ease: 'none' }, at + 0.05);
+      jTl.call(() => { walk(false); activateStage(n); }, null, at + 1.0);
+    })(si, t);
+    t += 1.25;
+  }
+  jTl.to('.ch-outro', { opacity: 1, duration: 0.6, ease: 'none' }, t);
   jTl.to('#storm', { scale: 1.12, duration: 2.4, ease: 'none' }, 0);
 
   /* ---------- journey skip ---------- */

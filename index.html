@@ -69,14 +69,66 @@
 <section class="s-journey">
   <canvas id="storm"></canvas>
   <div class="ch-title"><span id="scramble">THE JOURNEY</span></div>
-  <div class="dialogue">
-    <div class="dlg-portrait" aria-hidden="true"><span></span></div>
-    <div class="dlg-body">
-      <p class="dlg-name">DINESH</p>
-      <p class="dlg-line" id="dlg-line"></p>
-      <div class="dlg-progress"><span id="dlg-bar"></span></div>
+  <div class="journey-track" id="journeyTrack">
+    <svg class="j-path" viewBox="0 0 1000 220" preserveAspectRatio="none" aria-hidden="true">
+      <path id="jPath" d="M80 170 Q 280 90 500 150 T 920 120" fill="none"/>
+    </svg>
+    <div class="j-stages">
+      <div class="j-stage is-active" data-s="0" style="--sx:8%">
+        <p class="j-kicker">01 · School</p>
+        <h3>Bapiji High School</h3>
+        <p class="j-score">8.8 GPA</p>
+        <p class="j-note">Where it all started.</p>
+      </div>
+      <div class="j-stage" data-s="1" style="--sx:36%">
+        <p class="j-kicker">02 · Intermediate</p>
+        <h3>Sri Gayatri Junior College</h3>
+        <p class="j-score">91.8%</p>
+        <p class="j-note">The grind years.</p>
+      </div>
+      <div class="j-stage" data-s="2" style="--sx:64%">
+        <p class="j-kicker">03 · Bachelor's</p>
+        <h3>BSc Computer Science</h3>
+        <p class="j-sub">Prathibha Degree College</p>
+        <p class="j-score">8.7 CGPA</p>
+        <p class="j-note">Where code began.</p>
+      </div>
+      <div class="j-stage" data-s="3" style="--sx:92%">
+        <p class="j-kicker">04 · Master's</p>
+        <h3>MCA · Loyola Academy</h3>
+        <p class="j-score">9.48 CGPA · Class of 2026</p>
+        <p class="j-note">The builder emerges.</p>
+      </div>
     </div>
-    <button class="pill pill-ghost" id="dlg-skip" type="button">Skip&nbsp;↓</button>
+    <div class="j-char" id="jChar">
+      <svg viewBox="0 0 120 170" aria-hidden="true">
+        <g opacity=".28" transform="translate(6,7)">
+          <circle cx="60" cy="38" r="17" fill="#000"/>
+          <rect x="42" y="58" width="36" height="52" rx="6" fill="#000"/>
+        </g>
+        <rect x="46" y="106" width="13" height="42" rx="4" fill="#233038"/>
+        <rect x="61" y="106" width="13" height="42" rx="4" fill="#2c3d47"/>
+        <rect x="30" y="64" width="12" height="34" rx="6" fill="#e8e2d4" transform="rotate(12 36 64)"/>
+        <rect x="78" y="64" width="12" height="34" rx="6" fill="#e8e2d4" transform="rotate(-18 84 64)"/>
+        <rect x="42" y="58" width="36" height="52" rx="6" fill="#f4f1ea"/>
+        <rect x="42" y="58" width="36" height="52" rx="6" fill="none" stroke="#d8d2c4" stroke-width="1.5"/>
+        <g transform="rotate(-14 94 94)">
+          <rect x="80" y="76" width="28" height="36" rx="2" fill="#ffffff" stroke="#cfc9bb" stroke-width="1.5"/>
+          <rect x="85" y="82" width="18" height="3" fill="#c33d1e"/>
+          <rect x="85" y="88" width="14" height="2.5" fill="#9a978c"/>
+          <rect x="85" y="93" width="16" height="2.5" fill="#9a978c"/>
+          <rect x="85" y="98" width="12" height="2.5" fill="#9a978c"/>
+        </g>
+        <circle cx="60" cy="38" r="17" fill="#f4f1ea" stroke="#d8d2c4" stroke-width="1.5"/>
+        <polygon points="60,14 90,24 60,34 30,24" fill="#14181c"/>
+        <rect x="52" y="24" width="16" height="10" rx="2" fill="#14181c"/>
+        <line x1="90" y1="24" x2="90" y2="40" stroke="#c33d1e" stroke-width="2"/>
+        <circle cx="90" cy="42" r="3" fill="#c33d1e"/>
+        <circle cx="54" cy="38" r="2" fill="#14181c"/>
+        <circle cx="66" cy="38" r="2" fill="#14181c"/>
+        <path d="M54 46 Q60 50 66 46" stroke="#14181c" stroke-width="1.5" fill="none"/>
+      </svg>
+    </div>
   </div>
   <p class="ch-outro">CRAFT&nbsp;WITH&nbsp;INTENT,&nbsp;NOT&nbsp;TEMPLATES.</p>
 </section>
