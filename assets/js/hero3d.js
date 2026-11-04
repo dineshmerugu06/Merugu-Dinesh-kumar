@@ -136,8 +136,17 @@ function pilotFrame(dt) {
   let tx, ty, targetOp = 1;
 
   if (pilot.mode === 'cursor') {
-    tx = pilot.mx - tw / 2; ty = pilot.my - th / 2;
+    // GLUED to the cursor: exact 1:1 follow, nothing else moves
+    canvas.style.left = (pilot.mx - tw / 2) + 'px';
+    canvas.style.top = (pilot.my - th / 2) + 'px';
+    canvas.style.width = tw + 'px';
+    canvas.style.height = th + 'px';
+    if (parseFloat(canvas.style.opacity || '1') < 1) canvas.style.opacity = '1';
     if (mixer && !pilot.roaring) mixer.timeScale = 0.5;
+    group.rotation.set(0, 0, -0.1);
+    if (!pilot.roaring) group.scale.setScalar(1);
+    group.position.set(0, 0, 0);
+    return;
   } else if (pilot.mode === 'trail') {
     const jp = window.__journeyP || 0;
     if (!pilot.entered) {
@@ -183,7 +192,7 @@ function pilotFrame(dt) {
   group.position.y = Math.sin(t * 0.7) * 0.18;
 }
 
-// roar: lunge at the blood text + shake + the model's own animation sped up. nothing extra.
+// roar: the model's own animation speeds up + a scale pulse. dragon never leaves the cursor.
 window.__dragonRoar = function () {
   if (pilot.mode !== 'cursor' || pilot.roaring || !window.gsap || !pilotActive) return;
   pilot.roaring = true;
@@ -191,14 +200,9 @@ window.__dragonRoar = function () {
     mixer.timeScale = 3;
     setTimeout(() => { if (mixer) mixer.timeScale = 0.5; }, 900);
   }
-  const stage = document.querySelector('.t-stage').getBoundingClientRect();
-  const cr = canvas.getBoundingClientRect();
-  const dx = (stage.left + stage.width / 2) - (cr.left + cr.width / 2);
-  const dy = (stage.top + stage.height * 0.42) - (cr.top + cr.height / 2);
   gsap.timeline({ onComplete: () => { pilot.roaring = false; } })
-    .to(canvas, { x: dx * 0.32, y: dy * 0.32, scale: 1.16, duration: 0.28, ease: 'power2.in' })
-    .to(canvas, { x: '+=' + 18, duration: 0.07, repeat: 5, yoyo: true, ease: 'none' }, '>-0.04')
-    .to(canvas, { x: 0, y: 0, scale: 1, duration: 0.7, ease: 'power3.out' });
+    .to(group.scale, { x: 1.14, y: 1.14, z: 1.14, duration: 0.25, ease: 'power2.in' })
+    .to(group.scale, { x: 1, y: 1, z: 1, duration: 0.6, ease: 'power3.out' });
 };
 
 (function tick() {
