@@ -223,11 +223,6 @@
     el.addEventListener('mouseleave', () => ring && ring.classList.remove('is-hover'));
   });
 
-  /* ---------- loader: clears on window load, never gated on 3D ---------- */
-  const clearLoader = () => document.querySelector('.loader').classList.add('done');
-  window.addEventListener('load', () => setTimeout(clearLoader, 500));
-  setTimeout(clearLoader, 5000);
-
   window.__lenis = lenis;
 })();
 
