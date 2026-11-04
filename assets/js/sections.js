@@ -83,8 +83,6 @@
     tTl.to(chars, {
       opacity: 0.08, filter: 'blur(12px)', y: -30, duration: (b - mid), ease: 'none', stagger: (b - mid) / chars.length / 2
     }, mid);
-    // dragon roars at each blood text the moment it fully appears
-    tTl.call(() => { if (window.__dragonRoar) window.__dragonRoar(); }, null, mid);
   });
   gsap.set(tChars.flat(), { y: 30 });
 
