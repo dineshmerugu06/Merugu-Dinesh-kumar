@@ -171,5 +171,17 @@
     tick(); setInterval(tick, 1000);
   }
 
+  /* ---------- how-i-work timeline progress ---------- */
+  (function () {
+    var steps = document.querySelector('.hiw-steps');
+    if (!steps || !window.ScrollTrigger) return;
+    ScrollTrigger.create({
+      trigger: steps, start: 'top 75%', end: 'bottom 45%', scrub: 0.4,
+      onUpdate: function (self) {
+        steps.style.setProperty('--hiw-line', (self.progress * 100).toFixed(1) + '%');
+      }
+    });
+  })();
+
   window.addEventListener('load', () => ScrollTrigger.refresh());
 })();
