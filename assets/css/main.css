@@ -219,17 +219,44 @@ a{color:inherit}
 .t-tag{font-family:var(--st-mono);font-size:.78rem;letter-spacing:.04em;color:#fff;margin:0 0 .7rem}
 .t-desc{font-size:.92rem;line-height:1.65;color:#a399a8;margin:0}
 
-/* masonry */
-.m-grid{columns:3;column-gap:clamp(1rem,2vw,1.6rem)}
-.m-tile{break-inside:avoid;background:#fff;border:2px solid #101214;border-radius:16px;
-  padding:1.6rem;margin-bottom:clamp(1rem,2vw,1.6rem);box-shadow:5px 5px 0 #101214;
-  transition:transform .3s,box-shadow .3s}
-.m-tile:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 #101410}
-.m-tile b{display:block;font-family:var(--st-display);font-weight:400;font-size:1.5rem;letter-spacing:-.01em}
-.m-tile span{font-family:var(--st-mono);font-size:.75rem;letter-spacing:.08em;color:#5a5a52}
-.m-tile.tall{padding:2.6rem 1.6rem}
-.m-tile.wide{background:#101214;color:#f4f1ea;border-color:#101214}
-.m-tile.wide span{color:#a399a8}
+/* masonry — rebuilt 2026-11-04: interests pager (no cards) */
+.w-masonry{background:#f7f4ef;color:#101214;overflow:hidden}
+.interest-wrap{position:relative;z-index:2}
+.interest-eyebrow{opacity:0;transform:translateY(14px);transition:opacity .8s ease,transform .8s ease}
+.interest-stage{position:relative;min-height:clamp(420px,58vh,560px);margin-top:2.2rem}
+.interest-slide{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,4rem);align-items:center;
+  opacity:0;visibility:hidden;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease,visibility 0s .7s}
+.interest-slide.is-active{opacity:1;visibility:visible;transform:none;transition:opacity .7s ease,transform .7s ease}
+.interest-head{font-family:'Instrument Serif',serif;font-weight:400;letter-spacing:-.01em;
+  font-size:clamp(2.6rem,5.4vw,4.8rem);line-height:1.04;margin:0 0 1.4rem}
+.interest-head em{font-style:italic;color:#c33d1e}
+.interest-text{font-size:1.02rem;line-height:1.75;color:#4a4640;max-width:34rem;margin:0}
+.interest-img{overflow:hidden;border-radius:6px;box-shadow:0 30px 80px -30px rgba(60,40,30,.35)}
+.interest-img img{display:block;width:100%;height:clamp(280px,44vh,440px);object-fit:cover;
+  transform:scale(1.12);transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.interest-slide.is-active .interest-img img{transform:scale(1)}
+.interest-dots{display:flex;align-items:center;justify-content:center;gap:.9rem;margin-top:3rem;
+  opacity:0;transition:opacity .8s ease .3s}
+.interest-dots::before,.interest-dots::after{content:"";height:1px;width:min(120px,20vw);background:#d8d2c6}
+.interest-dots button{width:11px;height:11px;border-radius:50%;border:1px solid #c33d1e;background:transparent;
+  padding:0;cursor:pointer;transition:background .3s,transform .3s}
+.interest-dots button.is-active{background:#c33d1e;transform:scale(1.25)}
+/* petal wipe transition */
+.petal-wipe{position:absolute;inset:0;z-index:5;background:#f7f4ef;pointer-events:none;
+  transform:translateY(0);transition:transform 1.1s cubic-bezier(.7,0,.2,1)}
+.w-masonry.is-in .petal-wipe{transform:translateY(-101%)}
+.pw-petal{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(195,61,30,.5),rgba(195,61,30,0));
+  filter:blur(6px)}
+.pw-1{width:34vmax;height:34vmax;left:-8vmax;top:-10vmax}
+.pw-2{width:22vmax;height:22vmax;right:-6vmax;top:12%}
+.pw-3{width:16vmax;height:16vmax;left:32%;bottom:-8vmax}
+.pw-4{width:10vmax;height:10vmax;left:12%;top:38%}
+.pw-5{width:13vmax;height:13vmax;right:22%;bottom:6%}
+.w-masonry.is-in .interest-eyebrow{opacity:1;transform:none;transition-delay:.55s}
+.w-masonry.is-in .interest-dots{opacity:1}
+/* ambient petal field */
+.petal-field{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity 1.2s ease .8s}
+.w-masonry.is-in .petal-field{opacity:1}
 
 /* for */
 .f-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2vw,1.8rem)}
@@ -370,12 +397,14 @@ a{color:inherit}
 
 @media(max-width:1000px){
   .t-grid{grid-template-columns:repeat(2,1fr)}
-  .m-grid{columns:2}
   .f-grid{grid-template-columns:1fr}
+  .interest-slide{grid-template-columns:1fr;gap:1.6rem}
+  .interest-stage{min-height:0}
+  .interest-slide{position:relative;opacity:0;height:0;overflow:hidden}
+  .interest-slide.is-active{height:auto}
 }
 @media(max-width:600px){
   .t-grid{grid-template-columns:1fr}
-  .m-grid{columns:1}
   .c-grid{grid-template-columns:repeat(2,1fr)}
   .c-grid li{grid-template-columns:52px 1fr}
 }
