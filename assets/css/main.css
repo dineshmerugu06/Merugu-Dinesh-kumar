@@ -127,14 +127,16 @@ a{color:inherit}
 .w-sub.s1{left:var(--gap)}
 .w-sub.s2{right:var(--gap);text-align:right}
 
-/* ---- 2 · TRANSITION (pinned) ---- */
-.w-transition{position:relative;height:800vh;background:var(--st-black);z-index:10}
+/* ---- 2 · TRANSITION (pinned) : blood crimson ---- */
+.w-transition{position:relative;height:800vh;z-index:10;
+  background:radial-gradient(ellipse at 50% 38%,#b01424 0%,#7d0d1a 52%,#46060f 100%)}
 .t-progress{position:sticky;top:0;height:0;z-index:6}
-.t-progress span{display:block;height:3px;background:var(--st-red);transform:scaleX(0);transform-origin:0 50%}
+.t-progress span{display:block;height:3px;background:#f3e9d2;transform:scaleX(0);transform-origin:0 50%}
 .t-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
-.t-ph{grid-area:1/1;margin:0;text-align:center;color:var(--st-grey-dark);
-  font-family:var(--st-display);font-size:clamp(2.2rem,4.6vw,4rem);font-weight:400;letter-spacing:-.01em;
-  line-height:1.1;max-width:16ch}
+.t-ph{grid-area:1/1;margin:0;text-align:center;color:#f3e9d2;
+  font-family:'Archivo Black',sans-serif;font-size:clamp(2.6rem,7vw,6rem);font-weight:400;
+  letter-spacing:.01em;line-height:1.05;max-width:18ch;text-transform:uppercase;
+  text-shadow:0 6px 40px rgba(40,0,5,.55)}
 .t-ph .ch{display:inline-block;opacity:.08;filter:blur(12px);will-change:opacity,filter,transform}
 
 /* ---- 3 · TREE ---- */
