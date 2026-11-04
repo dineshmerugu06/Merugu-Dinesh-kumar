@@ -1,13 +1,67 @@
-/* Who I Build For — water ripple + services deck (generation phase removed) */
+/* Water Ripple Section — Phase 1: AI generation blobs, Phase 2: water ripple reveal */
 (function () {
   'use strict';
 
   function init() {
     var section = document.getElementById('for');
     if (!section) return;
+    var gen = document.getElementById('rippleGen');
     var water = document.getElementById('rippleWater');
+    var pctEl = document.getElementById('ripplePct');
+    var etaEl = document.getElementById('rippleEta');
+    var genText = document.getElementById('rippleGenText');
+    var genImg = document.getElementById('rippleGenImg');
+    var genScan = document.getElementById('rippleGenScan');
     var canvas = document.getElementById('rippleCanvas');
-    if (!water || !canvas) return;
+    if (!gen || !water || !canvas) return;
+
+    // Phase 1: AI Generation progress (8 seconds)
+    var progress = 0;
+    var duration = 8000;
+    var start = null;
+    var phase1Done = false;
+
+    function phase1(ts) {
+      if (!start) start = ts;
+      var elapsed = ts - start;
+      progress = Math.min(100, Math.round((elapsed / duration) * 100));
+      if (pctEl) pctEl.textContent = progress + '%';
+      var remaining = Math.max(0, Math.ceil((duration - elapsed) / 1000));
+      if (etaEl) etaEl.textContent = remaining;
+
+      if (genText) {
+        if (progress < 30) genText.textContent = 'Dreaming it up.';
+        else if (progress < 80) genText.textContent = 'Painting pixels.';
+        else genText.textContent = 'Almost magic.';
+      }
+
+      // image materializes: top-to-bottom reveal + deblur
+      if (genImg) {
+        var k = progress / 100;
+        genImg.style.filter = 'blur(' + (28 * (1 - k)).toFixed(1) + 'px) saturate(' + (0.7 + 0.3 * k).toFixed(2) + ')';
+        genImg.style.clipPath = 'inset(0 0 ' + (100 - progress) + '% 0)';
+      }
+      if (genScan) {
+        genScan.style.top = progress + '%';
+        genScan.style.opacity = (progress > 2 && progress < 100) ? '1' : '0';
+      }
+
+      if (progress >= 100 && !phase1Done) {
+        phase1Done = true;
+        // Transition to Phase 2
+        setTimeout(function () {
+          gen.style.opacity = '0';
+          gen.style.pointerEvents = 'none';
+          water.style.opacity = '1';
+          water.classList.add('active');
+          startRipple();
+          if (genText) genText.textContent = 'Image created.';
+          setTimeout(function () { gen.style.display = 'none'; }, 800);
+        }, 500);
+        return;
+      }
+      if (!phase1Done) requestAnimationFrame(phase1);
+    }
 
     // Phase 2: Water ripple canvas effect
     function startRipple() {
@@ -85,19 +139,19 @@
       drawWater();
     }
 
-    // Start the ripple when the section scrolls into view
+    // Start only when the section scrolls into view
     if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
-          if (en.isIntersecting) {
+          if (en.isIntersecting && !phase1Done && progress === 0) {
             io.disconnect();
-            startRipple();
+            requestAnimationFrame(phase1);
           }
         });
       }, { threshold: 0.25 });
       io.observe(section);
     } else {
-      startRipple();
+      requestAnimationFrame(phase1);
     }
   }
 
