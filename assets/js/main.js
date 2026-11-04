@@ -60,9 +60,9 @@
 
   /* ---------- 3 · JOURNEY: pinned chapter ---------- */
   const LINES = [
-    'MCA final year. One laptop. Zero shortcuts.',
-    'First website shipped. Then ten more — each sharper than the last.',
-    'Now I build for clients. Verified on phone and desktop, every single time.'
+    'BSc Computer Science — Prathibha Degree College. 8.7 CGPA.',
+    'MCA — Loyola Academy. 9.48 CGPA. Class of 2026.',
+    'Two degrees. One obsession: building things that work.'
   ];
   const lineEl = document.getElementById('dlg-line');
   const dlgBar = document.getElementById('dlg-bar');
