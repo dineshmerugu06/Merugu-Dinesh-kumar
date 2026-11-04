@@ -67,8 +67,7 @@
       auto();
     });
   });
-  sec.addEventListener('pointerenter', stop);
-  sec.addEventListener('pointerleave', function () { if (started) auto(); });
+
 
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
