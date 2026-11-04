@@ -79,7 +79,7 @@ if (window.ScrollTrigger) {
 const clock = new THREE.Clock();
 let t = 0;
 
-/* ---------- dragon pilot v2: hero -> cursor(S2, roars) -> vanish -> left-entrance trail(journey) -> gone ---------- */
+/* ---------- dragon pilot: hero -> cursor-follow in S2 (roars) -> gone after ---------- */
 const pilot = { mode: 'hero', mx: innerWidth / 2, my: innerHeight / 2, roaring: false };
 window.addEventListener('pointermove', (e) => { pilot.mx = e.clientX; pilot.my = e.clientY; },
   { passive: true });
