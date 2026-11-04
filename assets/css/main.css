@@ -145,8 +145,8 @@ a{color:inherit}
   background:linear-gradient(180deg,#faf6ee 20%,#d8d1bf 44%,#e02636 64%,#8e0f1d 82%,#4d0810 100%);
   -webkit-background-clip:text;background-clip:text;
   filter:drop-shadow(0 10px 26px rgba(30,0,4,.5))}
-.t-drips{position:absolute;top:80%;left:50%;width:min(430px,62vw);height:auto;overflow:visible;
-  opacity:0;pointer-events:none}
+#bloodCanvas{position:absolute;left:50%;top:50%;width:min(900px,88vw);height:60vh;
+  transform:translate(-50%,-42%);pointer-events:none;z-index:5}
 .t-splat{position:absolute;border-radius:50%;pointer-events:none;opacity:0;
   background:radial-gradient(circle,#c01424 0%,#7d0d1a 55%,transparent 72%);filter:blur(2px)}
 .t-splat.s1{width:26px;height:22px;left:12%;top:24%}

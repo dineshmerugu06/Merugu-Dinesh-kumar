@@ -86,6 +86,96 @@
   });
   gsap.set(tChars.flat(), { y: 30 });
 
+  /* blood drips canvas — liquid blood running from the text */
+  (function () {
+    const cv = document.getElementById('bloodCanvas');
+    if (!cv || !window.ScrollTrigger) return;
+    const ctx = cv.getContext('2d');
+    let W = 0, H = 0, startY = 0;
+    const drips = [], drops = [];
+    let running = false;
+
+    function size() {
+      const r = cv.getBoundingClientRect();
+      W = cv.width = Math.max(2, r.width);
+      H = cv.height = Math.max(2, r.height);
+      startY = H * 0.14;
+    }
+    size();
+    window.addEventListener('resize', size);
+
+    function spawn() {
+      const x = W * (0.18 + Math.random() * 0.64);
+      drips.push({
+        x: x, len: 0,
+        maxLen: H * (0.10 + Math.random() * 0.28),
+        w: 4 + Math.random() * 7,
+        speed: 0.5 + Math.random() * 1.4
+      });
+    }
+
+    function strand(d) {
+      const y0 = startY;
+      const g = ctx.createLinearGradient(d.x - d.w / 2, 0, d.x + d.w / 2, 0);
+      g.addColorStop(0, '#4d0810');
+      g.addColorStop(0.42, '#a3121f');
+      g.addColorStop(0.55, '#e53242');
+      g.addColorStop(1, '#4d0810');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(d.x - d.w / 2, y0, d.w, d.len, d.w / 2);
+      else ctx.rect(d.x - d.w / 2, y0, d.w, d.len);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.ellipse(d.x, y0 + d.len, d.w * 0.62, d.w * 0.85, 0, 0, Math.PI * 2);
+      ctx.fillStyle = '#8e0f1d';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.ellipse(d.x - d.w * 0.18, y0 + d.len - d.w * 0.22, d.w * 0.2, d.w * 0.3, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,120,130,.5)';
+      ctx.fill();
+    }
+
+    (function draw() {
+      requestAnimationFrame(draw);
+      if (!running) return;
+      ctx.clearRect(0, 0, W, H);
+      if (Math.random() < 0.05 && drips.length < 16) spawn();
+      for (let i = drips.length - 1; i >= 0; i--) {
+        const d = drips[i];
+        if (d.len < d.maxLen) d.len += d.speed;
+        else if (Math.random() < 0.015) {
+          drops.push({ x: d.x + (Math.random() - 0.5) * 4, y: startY + d.len, r: d.w * 0.55, vy: 0.5 });
+          d.len = d.maxLen * 0.4;
+          d.maxLen = d.len;
+        }
+        strand(d);
+      }
+      for (let i = drops.length - 1; i >= 0; i--) {
+        const p = drops[i];
+        p.vy += 0.22; p.y += p.vy;
+        ctx.beginPath();
+        ctx.ellipse(p.x, p.y, p.r * 0.8, p.r * 1.15, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#7d0d1a';
+        ctx.fill();
+        if (p.y > H + 30) drops.splice(i, 1);
+      }
+    })();
+
+    ScrollTrigger.create({
+      trigger: '.w-transition', start: 'top bottom', end: 'bottom top',
+      onToggle: (self) => {
+        running = self.isActive;
+        if (running) size();
+        else { ctx.clearRect(0, 0, W, H); drips.length = 0; drops.length = 0; }
+      }
+    });
+  })();
+
+  // blood splatter fades in with the first phrase, out at the end
+  tTl.to('.t-splat', { opacity: 0.85, duration: 1.2, ease: 'none', stagger: 0.25 }, 0.8);
+  tTl.to('.t-splat', { opacity: 0, duration: 0.8, ease: 'none' }, 7.2);
+
   /* ---------- 3 · TREE ---------- */
   const treeSec = document.querySelector('.w-tree');
   if (treeSec) {
