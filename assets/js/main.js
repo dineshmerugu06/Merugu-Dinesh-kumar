@@ -89,7 +89,7 @@
   const jTl = gsap.timeline({
     scrollTrigger: {
       trigger: '.s-journey', start: 'top top', end: '+=400%', scrub: 1, pin: true,
-      onUpdate: (self) => { window.__storm = self.progress; }
+      onUpdate: (self) => { window.__storm = self.progress; window.__journeyP = self.progress; }
     }
   });
   jTl.call(() => scrambleTo('THE JOURNEY'), null, 0.05);
