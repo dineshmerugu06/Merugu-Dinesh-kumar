@@ -12,7 +12,7 @@
     copiedLabel: 'Copied!',
     starPoints: 10,
     links: [
-      { caption: 'Projects', label: 'github.com/dineshmerugu06', href: 'https://github.com/dineshmerugu06' },
+      { caption: 'Projects', label: 'my work', href: 'projects/' },
       { caption: "Let's connect", label: '+91 93983 59538', href: 'tel:+919398359538' }
     ]
   };
