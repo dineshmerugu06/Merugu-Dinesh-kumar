@@ -25,11 +25,11 @@ body{background:var(--ink);color:var(--white);font-family:var(--font);
   font-size:1rem;line-height:1.35;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 ::selection{background:var(--red);color:#fff}
 a{color:inherit}
-@font-face{font-family:"Space Grotesk";src:url("../fonts/space-grotesk-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"Space Grotesk";src:url("../fonts/space-grotesk-latin-500-normal.woff2") format("woff2");font-weight:500;font-display:swap}
-@font-face{font-family:"Space Grotesk";src:url("../fonts/space-grotesk-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
-@font-face{font-family:"Space Mono";src:url("../fonts/space-mono-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"Space Mono";src:url("../fonts/space-mono-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url("../assets/fonts/space-grotesk-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url("../assets/fonts/space-grotesk-latin-500-normal.woff2") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url("../assets/fonts/space-grotesk-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Space Mono";src:url("../assets/fonts/space-mono-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Space Mono";src:url("../assets/fonts/space-mono-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
 
 /* cursor */
 .cursor{position:fixed;top:0;left:0;width:10px;height:10px;border-radius:50%;
@@ -83,8 +83,8 @@ a{color:inherit}
   --st-display:"KHTeka",system-ui,sans-serif;
   --st-mono:"KHTekaMono","Space Mono",ui-monospace,monospace;
 }
-@font-face{font-family:"KHTeka";src:url("../fonts/KHTeka-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"KHTekaMono";src:url("../fonts/KHTekaMono-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"KHTeka";src:url("../assets/fonts/KHTeka-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"KHTekaMono";src:url("../assets/fonts/KHTekaMono-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
 
 /* ---- 1 · WELCOME ---- */
 .w-welcome{min-height:100svh;background:var(--st-black);color:var(--st-grey);

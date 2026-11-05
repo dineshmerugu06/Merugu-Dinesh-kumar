@@ -30,7 +30,7 @@ let mixer = null;
 let scrollSpin = 0;
 let heroProgress = 0;
 
-new GLTFLoader().load('./assets/models/dragon.glb', (gltf) => {
+new GLTFLoader().load('../assets/models/dragon.glb', (gltf) => {
   const m = gltf.scene;
   // normalize to ~9 units tall
   const box = new THREE.Box3().setFromObject(m);
