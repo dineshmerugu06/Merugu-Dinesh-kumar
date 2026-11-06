@@ -1,3 +1,8 @@
+/mirror-dinesh/* /404.html 404
+/Merugu-Dinesh-kumar/frontend/assets/videos/projects/01.mp4 /404.html 404
+/Merugu-Dinesh-kumar/frontend/assets/videos/projects/04.mp4 /404.html 404
+/frontend/assets/videos/projects/01.mp4 /404.html 404
+/frontend/assets/videos/projects/04.mp4 /404.html 404
 /Merugu-Dinesh-kumar/projects /projects/ 200
 /Merugu-Dinesh-kumar/projects/* /projects/:splat 200
 /Merugu-Dinesh-kumar/* /:splat 200
