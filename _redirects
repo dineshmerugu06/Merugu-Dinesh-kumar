@@ -1,2 +1,3 @@
 /Merugu-Dinesh-kumar/projects /projects/ 200
 /Merugu-Dinesh-kumar/projects/* /projects/:splat 200
+/Merugu-Dinesh-kumar/* /:splat 200
