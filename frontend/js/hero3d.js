@@ -123,6 +123,7 @@ function exitPilot() {
   canvas.style.zIndex = ''; canvas.style.pointerEvents = '';
   canvas.style.margin = '';
   if (window.gsap) gsap.set(canvas, { x: 0, y: 0, scale: 1 });
+  canvas.style.opacity = '1'; // the 'gone' fade leaves opacity at 0 — restore it, or the hero stays empty on return
   pilotActive = false;
   resize();
 }
