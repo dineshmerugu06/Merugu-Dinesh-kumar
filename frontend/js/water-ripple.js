@@ -13,9 +13,10 @@
     var canvas = document.getElementById('rippleCanvas');
     if (!gen || !water || !canvas) return;
 
-    // Phase 1: AI Generation progress (8 seconds)
+    // Phase 1: AI Generation progress (8 seconds desktop, 2.5s on phones —
+    // a blank screen for 8s reads as broken on mobile)
     var progress = 0;
-    var duration = 8000;
+    var duration = (window.matchMedia && window.matchMedia('(max-width: 760px)').matches) ? 2500 : 8000;
     var start = null;
     var phase1Done = false;
 
