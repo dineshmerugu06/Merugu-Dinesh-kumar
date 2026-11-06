@@ -165,8 +165,18 @@ a{color:inherit}
 .pills{display:flex;align-items:center;gap:.55em}
 .pct{font-family:var(--mono);font-size:.78rem;color:var(--mut);margin-left:.6em;min-width:3.2em;text-align:right}
 @media(max-width:760px){
-  .pills .pill{display:none}
-  .pills .pill-hot{display:inline-flex}
+  /* mobile: show the Project pill too — it was hidden, so there was no
+     way to reach Projects from the header on a phone. Compact everything
+     so brand + Project + Start a Project still fit at 390px. The %
+     number is hidden (the red progress bar above still shows it). */
+  .hud-top{padding-left:12px;padding-right:12px}
+  .brand{gap:.5em}
+  .brand-mark{width:30px;height:30px}
+  .brand-word{font-size:.95rem}
+  .brand-word sup{display:none}
+  .pills{gap:.4em}
+  .pills .pill{display:inline-flex;padding:.5em .8em;font-size:.68rem}
+  .pct{display:none}
   /* header: white logo text was invisible on the cream sections —
      dark bar on mobile keeps it readable everywhere */
   .hud-top{background:rgba(13,17,20,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
