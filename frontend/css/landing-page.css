@@ -1682,6 +1682,12 @@ html.overdrive .od-toast{background:#35e0ff;color:#04222e}
   .ripple-text { text-align: center; max-width: 100%; }
   .ripple-nav { justify-content: center; }
   .ripple-name { font-size: 32px; }
+  /* section was locked to 100vh while its content is ~1030px tall on phones —
+     the <- -> buttons sat below the section edge, clipped and unreachable.
+     Let the section grow with its content on mobile. */
+  .w-ripple { min-height: 0; }
+  .ripple-water { position: relative; }
+  .ripple-content { min-height: 0; }
 }
 
 .ripple-headline {
